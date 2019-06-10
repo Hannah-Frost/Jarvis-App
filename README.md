@@ -69,6 +69,11 @@ As a user,
 So I can quickly see all the needed info
 I want it all to be displayed on one page.
 ```
+```
+As a user,
+So I am prepared for the day
+I would like to be given some useful advice
+```
 
 ---
 **Team Collaborators**
