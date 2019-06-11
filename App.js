@@ -35,9 +35,10 @@ export default class App extends React.Component {
       )
     } else {
       let temp = this.state.dataSource.slice(0, 24).map(i => {
-        if (i.dt_txt.includes("08:00:00")) {
+        if (i.dt_txt.includes("08:00") || i.dt_txt.includes("12:00") || i.dt_txt.includes("16:00") || i.dt_txt.includes("20:00")) {
           return (
             <View item={i} key={i.id} style={styles.container}>
+              <Text>{i.dt_txt.substring(11,16)}</Text>
               <Text>{i.main.temp}</Text>
             </View>
           )
