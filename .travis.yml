@@ -6,4 +6,4 @@ before_script:
   - npm i -g npm@6.9.0
 script:
   - npm ci
-  - npm jest --ci
+  - npx jest --ci
