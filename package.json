@@ -2,7 +2,15 @@
   "name": "Jarvis-App",
   "jest": {
     "preset": "jest-expo",
-    "verbose": true
+    "verbose": true,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/coverage/**",
+      "!**/node_modules/**",
+      "!**/babel.config.js",
+      "!**/jest.setup.js"
+    ]
   },
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
