@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, Image } from 'react-native';
 
 export default class App extends React.Component {
 
@@ -38,14 +38,15 @@ export default class App extends React.Component {
         if (i.dt_txt.includes("08:00") || i.dt_txt.includes("12:00") || i.dt_txt.includes("16:00") || i.dt_txt.includes("20:00")) {
           return (
             <View item={i} key={i.id} style={styles.container}>
-              <Text>{i.dt_txt.substring(11,16)}</Text>
               <Text>{i.main.temp}</Text>
+              <Image style={styles.weatherIcon} source={require("./assets/Clouds.png")} />
+              <Text>{i.dt_txt.substring(11,16)}</Text>
             </View>
           )
         }
       })
       return (
-        <View style={styles.container}>
+        <View style={styles.weatherContainer}>
           {temp}
         </View>
       )
@@ -66,4 +67,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'stretch',
   },
+  weatherContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  weatherIcon: {
+    height: 34,
+    width: 34
+  }
 });
