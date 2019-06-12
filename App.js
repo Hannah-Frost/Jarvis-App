@@ -42,7 +42,7 @@ export default class App extends React.Component {
       let temp = this.state.dataSource.slice(0, 4).map(i => {
         let imageName = i.weather[0].main.toLowerCase()
         let url = weather[imageName].url
-        weatherReport += `At ${i.dt_txt.substring(11,16)} it ${weather[imageName].advice}. `
+        weatherReport += `At ${i.dt_txt.substring(11,16)} it ${weather[imageName].advice}.`
         return (
           <View item={i} key={i.id} style={styles.container}>
             <Text>{Math.round(i.main.temp)}°C </Text>
@@ -69,7 +69,7 @@ export default class App extends React.Component {
 }
 
 _speak = (props) => {
-  Speech.speak(`Good morning, this is your daily report: ${props}`)
+  Speech.speak(`Good morning, this is your daily report: ${props}. You might want to pack an umbrella`)
 }
 
 const styles = StyleSheet.create({
