@@ -1,7 +1,19 @@
 const weather = {
-  clouds: require("./Clouds.png"),
-  rain: require("./Rain.png"),
-  snow: require("./Snow.png"),
-  clear: require("./Clear.png")
+  clouds: {
+    url: require("./Clouds.png"),
+    advice: "is cloudy."
+  },
+  rain: {
+    url: require("./Rain.png"),
+    advice: "is rainy."
+  },
+  snow: {
+    url: require("./Snow.png"),
+    advice: "is snowy."
+  },
+  clear: {
+    url: require("./Clear.png"),
+    advice: "is sunny."
+  },
 }
 export default weather;

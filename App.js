@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, Image } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, Image, Button } from 'react-native';
 import weather from './assets/images'
+import * as Speech from 'expo-speech';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -37,13 +38,18 @@ export default class App extends React.Component {
       let temp = this.state.dataSource.slice(0, 24).map(i => {
         if (i.dt_txt.includes("08:00") || i.dt_txt.includes("12:00") || i.dt_txt.includes("16:00") || i.dt_txt.includes("20:00")) {
           let imageName = i.weather[0].main.toLowerCase()
-          let url = weather[imageName]
-
+          let url = weather[imageName].url
+          let weatherInfo = `At ${i.dt_txt.substring(11,16)} it ${weather[imageName].advice}`
           return (
             <View item={i} key={i.id} style={styles.container}>
               <Text>{Math.round(i.main.temp - 273.15) }°C </Text>
               <Image style={styles.weatherIcon} source={url} />
               <Text>{i.dt_txt.substring(11,16)}</Text>
+              <Button
+                onPress={() => _speak(weatherInfo)}
+                title="Tell Me"
+                color="#841584"
+              />
             </View>
           )
         }
@@ -55,6 +61,10 @@ export default class App extends React.Component {
       )
     }
   }
+}
+
+_speak = (props) => {
+  Speech.speak(props)
 }
 
 const styles = StyleSheet.create({
