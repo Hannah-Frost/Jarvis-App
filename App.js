@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, Image, Button } from 'react-native';
 import weather from './assets/images'
 import * as Speech from 'expo-speech';
+import { APP_ID } from 'react-native-dotenv'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -9,11 +10,12 @@ export default class App extends React.Component {
       this.state = {
         isLoading: true,
         dataSource: null,
+        weatherReport: null,
       }
   }
 
   componentDidMount() {
-    return fetch('https://samples.openweathermap.org/data/2.5/forecast/hourly?id=524901&appid=b6907d289e10d714a6e88b30761fae22')
+    return fetch(`http://api.openweathermap.org/data/2.5/forecast?id=2643743&units=metric&APPID=${APP_ID}`)
       .then ( (response) => response.json() )
       .then( (responseJson) => {
 
@@ -28,6 +30,7 @@ export default class App extends React.Component {
   }
 
   render() {
+    let weatherReport = ''
     if (this.state.isLoading) {
       return (
         <View style={styles.container}>
@@ -35,28 +38,28 @@ export default class App extends React.Component {
         </View>
       )
     } else {
-      let temp = this.state.dataSource.slice(0, 24).map(i => {
-        if (i.dt_txt.includes("08:00") || i.dt_txt.includes("12:00") || i.dt_txt.includes("16:00") || i.dt_txt.includes("20:00")) {
-          let imageName = i.weather[0].main.toLowerCase()
-          let url = weather[imageName].url
-          let weatherInfo = `At ${i.dt_txt.substring(11,16)} it ${weather[imageName].advice}`
-          return (
-            <View item={i} key={i.id} style={styles.container}>
-              <Text>{Math.round(i.main.temp - 273.15) }°C </Text>
-              <Image style={styles.weatherIcon} source={url} />
-              <Text>{i.dt_txt.substring(11,16)}</Text>
-              <Button
-                onPress={() => _speak(weatherInfo)}
-                title="Tell Me"
-                color="#841584"
-              />
-            </View>
-          )
-        }
+      let temp = this.state.dataSource.slice(0, 4).map(i => {
+        let imageName = i.weather[0].main.toLowerCase()
+        let url = weather[imageName].url
+        weatherReport += `At ${i.dt_txt.substring(11,16)} it ${weather[imageName].advice}. `
+        return (
+          <View item={i} key={i.id} style={styles.container}>
+            <Text>{Math.round(i.main.temp)}°C </Text>
+            <Image style={styles.weatherIcon} source={url} />
+            <Text>{i.dt_txt.substring(11,16)}</Text>
+          </View>
+        )
       })
       return (
-        <View style={styles.weatherContainer}>
-          {temp}
+        <View style={styles.tellMeButton}>
+          <Button
+            onPress={() => _speak(weatherReport)}
+            title="Tell Me"
+            color="#841584"
+          />
+          <View style={styles.weatherContainer}>
+            {temp}
+          </View>
         </View>
       )
     }
@@ -64,7 +67,7 @@ export default class App extends React.Component {
 }
 
 _speak = (props) => {
-  Speech.speak(props)
+  Speech.speak(`Good morning, this is your daily report: ${props}`)
 }
 
 const styles = StyleSheet.create({
@@ -79,6 +82,9 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     alignSelf: 'stretch',
+  },
+  tellMeButton: {
+    flex: 1,
   },
   weatherContainer: {
     flex: 1,

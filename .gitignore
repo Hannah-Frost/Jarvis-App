@@ -10,3 +10,4 @@ web-build/
 web-report/
 .DS_Store
 coverage/
+.env
