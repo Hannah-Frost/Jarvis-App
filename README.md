@@ -4,11 +4,14 @@
 
 ## Setting-Up and Viewing in Expo
 1. Clone this repository.
-2. Install Expo CLI by running `npm install -g expo-cli` in the command line.
-3. Run `npm start` in the command line to start the the development server.
-4. Install the [Expo client app](https://expo.io/) on your phone.
-5. Connect to the same wireless network as the computer running the development server.
-6. Open your project:
+2. Install node modules by running `npm install` in the command line.
+3. Create an API key at the [Open Weather Map](https://openweathermap.org/forecast5) website.
+4. Create a .env file in the root of the app.
+5. Add this API key into the .env file under `APP_ID='insert_API_key_here'`.
+6. Run `npm start` in the command line to start the the development server.
+7. Install the [Expo client app](https://expo.io/) on your phone.
+8. Connect to the same wireless network as the computer running the development server.
+9. Open your project:
 
 **Android:** use the Expo app to scan the QR code from your terminal.
 
@@ -72,7 +75,7 @@ I want it all to be displayed on one page.
 ```
 As a user,
 So I am prepared for the day
-I would like to be given some useful advice
+I would like to be given some useful advice.
 ```
 
 ---
