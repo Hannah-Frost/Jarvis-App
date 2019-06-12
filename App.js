@@ -31,6 +31,7 @@ export default class App extends React.Component {
 
   render() {
     let weatherReport = ''
+    let date = Date(Date.now().toString()).substring(0,16)
     if (this.state.isLoading) {
       return (
         <View style={styles.container}>
@@ -57,6 +58,7 @@ export default class App extends React.Component {
             title="Tell Me"
             color="#841584"
           />
+          <Text>{date}</Text>
           <View style={styles.weatherContainer}>
             {temp}
           </View>
