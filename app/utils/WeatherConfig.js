@@ -1,18 +1,18 @@
 const weather = {
   clouds: {
-    url: require("./Clouds.png"),
+    url: require("../../assets/images/Clouds.png"),
     advice: "is cloudy."
   },
   rain: {
-    url: require("./Rain.png"),
+    url: require("../../assets/images/Rain.png"),
     advice: "is rainy."
   },
   snow: {
-    url: require("./Snow.png"),
+    url: require("../../assets/images/Snow.png"),
     advice: "is snowy."
   },
   clear: {
-    url: require("./Clear.png"),
+    url: require("../../assets/images/Clear.png"),
     advice: "is sunny."
   },
 }

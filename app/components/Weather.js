@@ -1,10 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, Image, Button } from 'react-native';
 import * as Speech from 'expo-speech';
-import Weather from './app/components/Weather';
-import weather from './app/utils/WeatherConfig';
-import { weatherAPI } from './app/utils/API';
-import { homeBackground } from './app/utils/Colours';
+import weather from '../utils/WeatherConfig';
+import { weatherAPI } from '../utils/API';
+import { homeBackground } from '../utils/Colours';
 
 
 export default class App extends React.Component {
