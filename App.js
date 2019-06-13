@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, Image, Button } from 'react-native';
 import * as Speech from 'expo-speech';
-import Weather from './app/components/Weather';
+import { Weather } from './app/components/Weather';
 import weather from './app/utils/WeatherConfig';
 import { weatherAPI } from './app/utils/API';
 import { homeBackground } from './app/utils/Colours';
@@ -21,10 +21,9 @@ export default class App extends React.Component {
     return fetch(weatherAPI)
       .then ( (response) => response.json() )
       .then( (responseJson) => {
-
         this.setState({
           isLoading: false,
-          dataSource: responseJson.list,
+          dataSource: responseJson.list.slice(0, 4),
         })
       })
     .catch((error) => {
@@ -32,8 +31,16 @@ export default class App extends React.Component {
     });
   }
 
+  generateWeatherReport = () => {
+    weatherReport = ''
+    this.state.dataSource.map(i => {
+        let imageName = i.weather[0].main.toLowerCase()
+        weatherReport += `At ${i.dt_txt.substring(11,16)} it ${weather[imageName].advice}.`
+    })
+    return weatherReport
+  }
+
   render() {
-    let weatherReport = ''
     let date = Date(Date.now().toString()).substring(0,16)
     if (this.state.isLoading) {
       return (
@@ -42,28 +49,17 @@ export default class App extends React.Component {
         </View>
       )
     } else {
-      let temp = this.state.dataSource.slice(0, 4).map(i => {
-        let imageName = i.weather[0].main.toLowerCase()
-        let url = weather[imageName].url
-        weatherReport += `At ${i.dt_txt.substring(11,16)} it ${weather[imageName].advice}.`
-        return (
-          <View item={i} key={i.id} style={styles.container}>
-            <Text>{Math.round(i.main.temp)}°C </Text>
-            <Image style={styles.weatherIcon} source={url} />
-            <Text>{i.dt_txt.substring(11,16)}</Text>
-          </View>
-        )
-      })
+      const weatherSummary = this.generateWeatherReport()
       return (
         <View style={styles.container}>
           <Button
-            onPress={() => _speak(weatherReport)}
+            onPress={() => _speak(weatherSummary)}
             title="Tell Me"
             color="#841584"
           />
           <Text>{date}</Text>
           <View style={styles.weatherContainer}>
-            {temp}
+             <Weather weatherData={ this.state.dataSource }/>
           </View>
         </View>
       )
