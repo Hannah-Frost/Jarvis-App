@@ -20,28 +20,28 @@ export const Weather = (props) => {
 }
 
 const styles = StyleSheet.create({
- container: {
-   flex: 1,
-   backgroundColor: 'transparent',
-   alignItems: 'center',
-   justifyContent: 'center',
-   fontFamily: 'Verdana',
-   fontSize: 20,
- },
- item: {
-   flex: 1,
-   alignSelf: 'stretch',
- },
- tellMeButton: {
-   flex: 1,
- },
- weatherContainer: {
-   flex: 1,
-   flexDirection: 'row',
-   justifyContent: 'space-between'
- },
- weatherIcon: {
-   height: 34,
-   width: 34
- }
+  container: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontFamily: 'Verdana',
+    fontSize: 20,
+  },
+  item: {
+    flex: 1,
+    alignSelf: 'stretch',
+  },
+  tellMeButton: {
+    flex: 1,
+  },
+  weatherContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  weatherIcon: {
+    height: 34,
+    width: 34
+  }
 });

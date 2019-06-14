@@ -9,6 +9,7 @@ import weatherScript from './app/utils/WeatherScript';
 import { APP_ID } from 'react-native-dotenv'
 import { homeBackground } from './app/utils/Colours';
 import TravelTime from "./app/components/TravelTime.js";
+import {journeyTime} from "./app/components/TravelTime.js";
 
 
 export default class App extends React.Component {
@@ -82,9 +83,10 @@ export default class App extends React.Component {
       weatherReport += `${weatherScript[allWeather[3]].advice}.,`
     }
     weatherReport += `The temperature is currently ${[allTemp[0]]} degrees and will later be around ${[allTemp[3]]} degrees.`
+    weatherReport += `Today it will take you ${journeyTime} minutes to get to work.`
     return weatherReport
   }
-
+  
   render() {
     let date = Date(Date.now().toString()).substring(0,16)
     if (this.state.isLoading) {
@@ -115,8 +117,8 @@ export default class App extends React.Component {
             <View style={styles.weatherContainer}>
                 <Weather weatherData={ this.state.dataSource }/>
             </View>
-            <View>
-              <TravelTime />
+            <View style={styles.dateContainer}>
+              <Text>Today's commute: </Text><TravelTime />
             </View>
           </View>
         </LinearGradient>

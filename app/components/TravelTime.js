@@ -33,7 +33,7 @@ export default class TravelTime extends Component {
   };
   
   getDestinationAsync = async () => {
-    let destination = await Expo.Location.geocodeAsync("n7 0dp");
+    let destination = await Expo.Location.geocodeAsync("n70dp  ");
 
     let destinationCoords = {
       lat: destination[0].latitude,
@@ -72,11 +72,14 @@ export default class TravelTime extends Component {
     });
   }
 
+  
+
   render() {
-    var journeyTime = this.state.dataSource
+    export var journeyTime = this.state.dataSource
     return (
       <Text>{journeyTime}</Text>
     );
   }
 }
+
 
