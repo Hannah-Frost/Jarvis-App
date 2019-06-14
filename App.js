@@ -6,9 +6,9 @@ import * as Permissions from "expo-permissions";
 import { LinearGradient } from 'expo';
 import { Weather } from './app/components/Weather';
 import weatherScript from './app/utils/WeatherScript';
-import { weatherAPI } from './app/utils/API';
 import { APP_ID } from 'react-native-dotenv'
 import { homeBackground } from './app/utils/Colours';
+import TravelTime from "./app/components/TravelTime.js";
 
 
 export default class App extends React.Component {
@@ -96,27 +96,30 @@ export default class App extends React.Component {
     } else {
       const weatherSummary = this.generateWeatherReport()
       return (
-        <LinearGradient
-         colors={['#2980B9', '#6DD5FA', '#FFFFFF']}
-         style={styles.backgroundContainer}
-         >
-         <View style={styles.container}>
-         <View style={styles.buttonContainer}>
-         <Button
-           style={styles.tellMeButton}
-           onPress={() => _speak(weatherSummary)}
-           title="Tell Me"
-           color="#0B3954"
-         />
-         </View>
-           <View style={styles.dateContainer}>
-             <Text style={styles.dateText}>{date}</Text>
-           </View>
-           <View style={styles.weatherContainer}>
-              <Weather weatherData={ this.state.dataSource }/>
-           </View>
-         </View>
-       </LinearGradient>
+          <LinearGradient
+          colors={['#2980B9', '#6DD5FA', '#FFFFFF']}
+          style={styles.backgroundContainer}
+          >
+          <View style={styles.container}>
+          <View style={styles.buttonContainer}>
+          <Button
+            style={styles.tellMeButton}
+            onPress={() => _speak(weatherSummary)}
+            title="Tell Me"
+            color="#0B3954"
+          />
+          </View>
+            <View style={styles.dateContainer}>
+              <Text style={styles.dateText}>{date}</Text>
+            </View>
+            <View style={styles.weatherContainer}>
+                <Weather weatherData={ this.state.dataSource }/>
+            </View>
+            <View>
+              <TravelTime />
+            </View>
+          </View>
+        </LinearGradient>
       )
     }
   }
@@ -127,31 +130,31 @@ _speak = (props) => {
 }
 
 const styles = StyleSheet.create({
- backgroundContainer: {
-   flex: 1
- },
- container: {
-   flex: 1,
-   justifyContent: 'flex-start',
- },
- dateText: {
-   fontSize: 18,
-   fontFamily: 'Verdana',
- },
- dateContainer: {
-   marginTop: 30,
-   marginLeft: 20,
- },
- buttonContainer: {
-   marginTop: 50,
-   backgroundColor: '#ffffff',
-   marginLeft: 20,
-   marginRight: 20,
-   borderRadius: 4
- },
- weatherContainer: {
-   marginTop: 30,
-   flexDirection: 'row',
-   backgroundColor: 'transparent'
- }
+  backgroundContainer: {
+    flex: 1
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
+  dateText: {
+    fontSize: 18,
+    fontFamily: 'Verdana',
+  },
+  dateContainer: {
+    marginTop: 30,
+    marginLeft: 20,
+  },
+  buttonContainer: {
+    marginTop: 50,
+    backgroundColor: '#ffffff',
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: 4
+  },
+  weatherContainer: {
+    marginTop: 30,
+    flexDirection: 'row',
+    backgroundColor: 'transparent'
+  }
 });
