@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ActivityIndicator, Image, Button } from 'react-
 import * as Speech from 'expo-speech';
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
+import { LinearGradient } from 'expo';
 import { Weather } from './app/components/Weather';
 import weatherScript from './app/utils/WeatherScript';
 import { weatherAPI } from './app/utils/API';
@@ -64,7 +65,8 @@ export default class App extends React.Component {
       allWeather.push(i.weather[0].main.toLowerCase())
       allTemp.push(Math.round(i.main.temp))
     })
-    if (allWeather[1] === allWeather[2] && allWeather[2] === allWeather[3] && allWeather[3] === allWeather[4]) {
+    uniqWeather = new Set(allWeather)
+    if (uniqWeather.length === 1) {
       weatherReport += `It is ${weatherScript[allWeather[0]].current} and will continue to be for a while. ${weatherScript[allWeather[0]].advice}.`
     } else {
       if (allWeather[1].includes(allWeather[0])) {
@@ -94,22 +96,27 @@ export default class App extends React.Component {
     } else {
       const weatherSummary = this.generateWeatherReport()
       return (
-        <View style={styles.container}>
-        <View style={styles.buttonContainer}>
-        <Button
-          style={styles.tellMeButton}
-          onPress={() => _speak(weatherSummary)}
-          title="Tell Me"
-          color="#841584"
-        />
-        </View>
-          <View style={styles.dateContainer}>
-            <Text style={styles.heading}>{date}</Text>
-          </View>
-          <View style={styles.weatherContainer}>
-             <Weather weatherData={ this.state.dataSource }/>
-          </View>
-        </View>
+        <LinearGradient
+         colors={['#2980B9', '#6DD5FA', '#FFFFFF']}
+         style={styles.backgroundContainer}
+         >
+         <View style={styles.container}>
+         <View style={styles.buttonContainer}>
+         <Button
+           style={styles.tellMeButton}
+           onPress={() => _speak(weatherSummary)}
+           title="Tell Me"
+           color="#0B3954"
+         />
+         </View>
+           <View style={styles.dateContainer}>
+             <Text style={styles.dateText}>{date}</Text>
+           </View>
+           <View style={styles.weatherContainer}>
+              <Weather weatherData={ this.state.dataSource }/>
+           </View>
+         </View>
+       </LinearGradient>
       )
     }
   }
@@ -120,27 +127,31 @@ _speak = (props) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: homeBackground,
-    justifyContent: 'flex-start',
-  },
-  heading: {
-    fontSize: 24,
-    fontFamily: 'Verdana',
-  },
-  dateContainer: {
-    marginTop: 30,
-    marginLeft: 20,
-  },
-  buttonContainer: {
-    marginTop: 100,
-  },
-  tellMeButton: {
-    color: 'pink',
-  },
-  weatherContainer: {
-    marginTop: 30,
-    flexDirection: 'row',
-  }
+ backgroundContainer: {
+   flex: 1
+ },
+ container: {
+   flex: 1,
+   justifyContent: 'flex-start',
+ },
+ dateText: {
+   fontSize: 18,
+   fontFamily: 'Verdana',
+ },
+ dateContainer: {
+   marginTop: 30,
+   marginLeft: 20,
+ },
+ buttonContainer: {
+   marginTop: 50,
+   backgroundColor: '#ffffff',
+   marginLeft: 20,
+   marginRight: 20,
+   borderRadius: 4
+ },
+ weatherContainer: {
+   marginTop: 30,
+   flexDirection: 'row',
+   backgroundColor: 'transparent'
+ }
 });
