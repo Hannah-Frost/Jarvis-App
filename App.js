@@ -1,9 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, Image, Button } from 'react-native';
 import * as Speech from 'expo-speech';
+import * as Expo from "expo";
 import { Weather } from './app/components/Weather';
+import Location from './app/components/Location';
 import weather from './app/utils/WeatherConfig';
 import { weatherAPI } from './app/utils/API';
+import { APP_ID } from 'react-native-dotenv'
 import { homeBackground } from './app/utils/Colours';
 
 
@@ -14,21 +17,43 @@ export default class App extends React.Component {
         isLoading: true,
         dataSource: null,
         weatherReport: null,
+        latitude: null,
+        longitude: null,
       }
   }
 
-  componentDidMount() {
-    return fetch(weatherAPI)
-      .then ( (response) => response.json() )
-      .then( (responseJson) => {
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson.list.slice(0, 4),
-        })
+  _getLocationAsync = async () => {
+    let { status } = await Expo.Permissions.askAsync(Expo.Permissions.LOCATION);
+    if (status !== "granted") {
+      console.log("DENIED");
+    }
+    let location = await Expo.Location.getCurrentPositionAsync({});
+
+    const latitude = location.coords.latitude
+    const longitude = location.coords.longitude
+
+    this.setState({ latitude, longitude });
+  };
+
+  fetchWeather(lat, lon) {
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&APPID=${APP_ID}`)
+    .then ( (response) => response.json() )
+    .then( (responseJson) => {
+      this.setState({
+        isLoading: false,
+        dataSource: responseJson.list.slice(0, 4),
       })
+    })
     .catch((error) => {
       console.log(error)
     });
+  }
+
+  componentDidMount() {
+    this._getLocationAsync()
+    .then(() => {
+      this.fetchWeather(this.state.latitude, this.state.longitude)
+    })
   }
 
   generateWeatherReport = () => {
