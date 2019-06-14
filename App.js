@@ -52,12 +52,17 @@ export default class App extends React.Component {
       const weatherSummary = this.generateWeatherReport()
       return (
         <View style={styles.container}>
-          <Button
-            onPress={() => _speak(weatherSummary)}
-            title="Tell Me"
-            color="#841584"
-          />
-          <Text>{date}</Text>
+        <View style={styles.buttonContainer}>
+        <Button
+          style={styles.tellMeButton}
+          onPress={() => _speak(weatherSummary)}
+          title="Tell Me"
+          color="#841584"
+        />
+        </View>
+          <View style={styles.dateContainer}>
+            <Text style={styles.heading}>{date}</Text>
+          </View>
           <View style={styles.weatherContainer}>
              <Weather weatherData={ this.state.dataSource }/>
           </View>
@@ -75,25 +80,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: homeBackground,
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontFamily: 'Verdana',
-    fontSize: 20,
+    justifyContent: 'flex-start',
   },
-  item: {
-    flex: 1,
-    alignSelf: 'stretch',
+  heading: {
+    fontSize: 24,
+    fontFamily: 'Verdana',
+  },
+  dateContainer: {
+    marginTop: 30,
+    marginLeft: 20,
+  },
+  buttonContainer: {
+    marginTop: 100,
   },
   tellMeButton: {
-    flex: 1,
+    color: 'pink',
   },
   weatherContainer: {
-    flex: 1,
+    marginTop: 30,
     flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  weatherIcon: {
-    height: 34,
-    width: 34
   }
 });
