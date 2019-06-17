@@ -11,7 +11,7 @@ export default class TravelTime extends Component {
     this.state = {
       currentLocation: null,
       destination: null,
-      errorMessage: null, 
+      errorMessage: null,
       dataSource: null
     };
   }
@@ -24,16 +24,17 @@ export default class TravelTime extends Component {
       });
     }
     let currentLocation = await Expo.Location.getCurrentPositionAsync({});
-    
+
     let currentCoords = {
       lat: currentLocation.coords.latitude,
       long: currentLocation.coords.longitude
     }
     this.setState({ currentLocation, currentCoords });
   };
-  
+
   getDestinationAsync = async () => {
-    let destination = await Expo.Location.geocodeAsync("n70dp  ");
+    console.log(this.props.postcode)
+    let destination = await Expo.Location.geocodeAsync(this.props.postcode);
 
     let destinationCoords = {
       lat: destination[0].latitude,
@@ -57,9 +58,7 @@ export default class TravelTime extends Component {
     });
   }
 
-
-  componentDidMount() {
-    // NB below async = gamble! fix if possible. 
+  updateDestination = () => {
     this.getDestinationAsync().then(() => {;
       this.getLocationAsync().then(() => {
         this.getTravelTimeAsync(
@@ -71,15 +70,25 @@ export default class TravelTime extends Component {
       });
     });
   }
-
   
-
-  render() {
-    export var journeyTime = this.state.dataSource
-    return (
-      <Text>{journeyTime}</Text>
-    );
+  componentDidUpdate(prevProps, prevState) {
+  // only update chart if the data has changed
+  if (prevProps.postcode !== this.props.postcode) {
+    this.updateDestination()
   }
 }
 
-
+  render() {
+    var journeyTime = this.state.dataSource
+    if (this.props.postcode != '' && journeyTime != null) {
+      return (
+        <Text>Today's commute: {journeyTime} minutes to {this.props.postcode}</Text>
+      )
+    }
+    else {
+      return (
+      <Text>Please enter your postcode</Text>
+    )
+    }
+  }
+}
