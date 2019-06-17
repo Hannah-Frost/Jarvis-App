@@ -150,6 +150,10 @@ class HomeScreen extends React.Component {
                 title="Tell Me"
                 color="#0B3954"
               />
+              <Button
+                onPress={() => this.props.navigation.navigate('Settings')}
+                title="Settings"
+              />
             </View>
             <View style={styles.dateContainer}>
               <Text style={styles.dateText}>{date}</Text>
@@ -187,6 +191,7 @@ class SettingsScreen extends React.Component {
     return (
       <Text>Settings</Text>
      )
+   }
 }
 
 const AppNavigator = createStackNavigator(
