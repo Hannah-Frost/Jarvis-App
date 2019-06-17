@@ -22,7 +22,7 @@ export default class App extends React.Component {
         latitude: null,
         longitude: null,
         text: 'Enter Postcode',
-        postcode: ''
+        postcode: '',
       }
   }
 
@@ -92,7 +92,7 @@ export default class App extends React.Component {
   onSubmitEdit = (e) => {
     let input = e.nativeEvent.text
     this.setState({ postcode: input })
-}
+  }
 
   render() {
     let date = Date(Date.now().toString()).substring(0,16)
@@ -110,14 +110,14 @@ export default class App extends React.Component {
          style={styles.backgroundContainer}
          >
          <View style={styles.container}>
-         <View style={styles.buttonContainer}>
-         <Button
-           style={styles.tellMeButton}
-           onPress={() => _speak(weatherSummary)}
-           title="Tell Me"
-           color="#0B3954"
-         />
-         </View>
+           <View style={styles.buttonContainer}>
+           <Button
+             style={styles.tellMeButton}
+             onPress={() => _speak(weatherSummary)}
+             title="Tell Me"
+             color="#0B3954"
+           />
+           </View>
            <View style={styles.dateContainer}>
              <Text style={styles.dateText}>{date}</Text>
            </View>
@@ -125,7 +125,7 @@ export default class App extends React.Component {
               <Weather weatherData={ this.state.dataSource }/>
            </View>
            <View style={styles.dateContainer}>
-             <Text>Today's commute: </Text><TravelTime />
+             <TravelTime postcode={this.state.postcode}/>
            </View>
            <View>
            <TextInput
@@ -137,9 +137,8 @@ export default class App extends React.Component {
              returnKeyType={'done'}
              clearTextOnFocus={true}
            />
-           </View>
-           <Text>{this.state.postcode}</Text>
-         </View>
+          </View>
+        </View>
        </LinearGradient>
       )
     }
