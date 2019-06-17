@@ -32,7 +32,8 @@ class HomeScreen extends React.Component {
       latitude: null,
       longitude: null,
       text: "Enter Postcode",
-      postcode: ""
+      postcode: "",
+      speechRate: 1,
     };
   }
 
@@ -146,7 +147,7 @@ class HomeScreen extends React.Component {
             <View style={styles.buttonContainer}>
               <Button
                 style={styles.tellMeButton}
-                onPress={() => _speak(weatherSummary)}
+                onPress={() => _speak(weatherSummary, this.state.speechRate)}
                 title="Tell Me"
                 color="#0B3954"
               />
@@ -187,9 +188,55 @@ class HomeScreen extends React.Component {
 }
 
 class SettingsScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      speechRate: 1,
+    };
+  }
+
+  getSpeechRate = (number) => {
+      this.setState({ speechRate: number })
+   }
+
+   _saveSettings = () => {
+     // send speech rate to homescreen class
+   }
+
   render() {
     return (
-      <Text>Settings</Text>
+      <LinearGradient
+       colors={['#2980B9', '#6DD5FA', '#FFFFFF']}
+       style={styles.backgroundContainer}
+       >
+         <View style={styles.container}>
+            <Text>Settings</Text>
+            <Text>Change the speech speed:</Text>
+            <Picker
+              selectedValue={this.state.speechRate}
+              style={{height: 50, width: 200}}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({speechRate: itemValue})
+              }>
+              <Picker.Item label="0.8" value="0.8" />
+              <Picker.Item label="0.9" value="0.9" />
+              <Picker.Item label="1.0 (original)" value="1.0" />
+              <Picker.Item label="1.1" value="1.1" />
+              <Picker.Item label="1.2" value="1.2" />
+            </Picker>
+            <Button
+              onPress={() => Speech.speak("Hello! How does this sound?", { rate: this.state.speechRate })}
+              title="Test Speech"
+              color="#0B3954"
+            />
+            <Button
+              onPress={() => this._saveSettings}
+              onPress={() => this.props.navigation.navigate('Home')}
+              title="Save Changes"
+              color="#0B3954"
+            />
+         </View>
+       </LinearGradient>
      )
    }
 }
@@ -210,10 +257,10 @@ export default class App extends React.Component {
   render() {
     return <AppContainer />;
   }
-}
+};
 
-_speak = props => {
-  Speech.speak(`Good morning, this is your daily report: ${props}.`);
+_speak = (props, rate) => {
+  Speech.speak(`Good morning, this is your daily report: ${props}.`, { rate: rate })
 };
 
 const styles = StyleSheet.create({
