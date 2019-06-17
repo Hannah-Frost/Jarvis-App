@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import * as Expo from "expo";
-import * as Calendar from "expo-calendar";
 import { StyleSheet, Text, View } from "react-native";
 
 export default class CalendarPull extends Component {
@@ -18,7 +17,8 @@ export default class CalendarPull extends Component {
         errorMessage: "Permission to access calendar was denied"
       });
     }
-    let localCalendars = await Expo.Calendar.getCalendarsAsync({});
+
+    let localCalendars = await Expo.Calendar.getCalendarsAsync();
 
     this.setState({ localCalendars: localCalendars });
     console.log(this.state.localCalendars);
