@@ -17,6 +17,7 @@ import weatherScript from "./app/utils/WeatherScript";
 import { APP_ID } from "react-native-dotenv";
 import { homeBackground } from "./app/utils/Colours";
 import TravelTime from "./app/components/TravelTime.js";
+import CalendarPull from "./app/components/Calendar.js";
 import { journeyTime } from "./app/components/TravelTime.js";
 
 export default class App extends React.Component {
@@ -161,7 +162,6 @@ export default class App extends React.Component {
                 storeTravelTime={this.storeTravelTime}
               />
             </View>
-
             <View>
               <TextInput
                 style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
@@ -172,6 +172,9 @@ export default class App extends React.Component {
                 returnKeyType={"done"}
                 clearTextOnFocus={true}
               />
+            </View>
+            <View>
+              <CalendarPull />
             </View>
           </View>
         </LinearGradient>
