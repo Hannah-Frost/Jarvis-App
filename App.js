@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, Image, Button } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, Image, Button, TextInput } from 'react-native';
 import * as Speech from 'expo-speech';
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
@@ -21,6 +21,8 @@ export default class App extends React.Component {
         weatherReport: null,
         latitude: null,
         longitude: null,
+        text: 'Enter Postcode',
+        postcode: ''
       }
   }
 
@@ -73,7 +75,7 @@ export default class App extends React.Component {
       if (allWeather[1].includes(allWeather[0])) {
         weatherReport += `It is mainly ${weatherScript[allWeather[0]].current}.,`
       } else {
-        weatherReport += `It is ${weatherScript[allWeather[0]].current}, and ${allWeather[1].soon}.,`
+        weatherReport += `It is ${weatherScript[allWeather[0]].current}, and ${weatherScript[allWeather[1]].soon}.,`
       }
       if (allWeather[3].includes(allWeather[2])) {
         weatherReport += `It will also be mostly ${weatherScript[allWeather[2]].later}.`
@@ -86,7 +88,12 @@ export default class App extends React.Component {
     weatherReport += `Today it will take you ${journeyTime} minutes to get to work.`
     return weatherReport
   }
-  
+
+  onSubmitEdit = (e) => {
+    let input = e.nativeEvent.text
+    this.setState({ postcode: input })
+}
+
   render() {
     let date = Date(Date.now().toString()).substring(0,16)
     if (this.state.isLoading) {
@@ -98,37 +105,49 @@ export default class App extends React.Component {
     } else {
       const weatherSummary = this.generateWeatherReport()
       return (
-          <LinearGradient
-          colors={['#2980B9', '#6DD5FA', '#FFFFFF']}
-          style={styles.backgroundContainer}
-          >
-          <View style={styles.container}>
-          <View style={styles.buttonContainer}>
-          <Button
-            style={styles.tellMeButton}
-            onPress={() => _speak(weatherSummary)}
-            title="Tell Me"
-            color="#0B3954"
-          />
-          </View>
-            <View style={styles.dateContainer}>
-              <Text style={styles.dateText}>{date}</Text>
-            </View>
-            <View style={styles.weatherContainer}>
-                <Weather weatherData={ this.state.dataSource }/>
-            </View>
-            <View style={styles.dateContainer}>
-              <Text>Today's commute: </Text><TravelTime />
-            </View>
-          </View>
-        </LinearGradient>
+        <LinearGradient
+         colors={['#2980B9', '#6DD5FA', '#FFFFFF']}
+         style={styles.backgroundContainer}
+         >
+         <View style={styles.container}>
+         <View style={styles.buttonContainer}>
+         <Button
+           style={styles.tellMeButton}
+           onPress={() => _speak(weatherSummary)}
+           title="Tell Me"
+           color="#0B3954"
+         />
+         </View>
+           <View style={styles.dateContainer}>
+             <Text style={styles.dateText}>{date}</Text>
+           </View>
+           <View style={styles.weatherContainer}>
+              <Weather weatherData={ this.state.dataSource }/>
+           </View>
+           <View style={styles.dateContainer}>
+             <Text>Today's commute: </Text><TravelTime />
+           </View>
+           <View>
+           <TextInput
+             style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+             onChangeText={(text) => this.setState({text})}
+             value={this.state.text}
+             onSubmitEditing={this.onSubmitEdit}
+             autoCompleteType={'postal-code'}
+             returnKeyType={'done'}
+             clearTextOnFocus={true}
+           />
+           </View>
+           <Text>{this.state.postcode}</Text>
+         </View>
+       </LinearGradient>
       )
     }
   }
 }
 
 _speak = (props) => {
-  Speech.speak(`Good morning, this is your daily report: ${props}.`)
+  Speech.speak(`Good morning, this is your daily report: ${props}.`, {pitch: 20})
 }
 
 const styles = StyleSheet.create({
