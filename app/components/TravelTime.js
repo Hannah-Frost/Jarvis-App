@@ -51,9 +51,14 @@ export default class TravelTime extends Component {
     )
       .then(response => response.json())
       .then(responseJson => {
-        this.setState({
-          dataSource: responseJson.travel_time_minutes
-        });
+        this.setState(
+          {
+            dataSource: responseJson.travel_time_minutes
+          },
+          () => {
+            this.props.storeTravelTime(responseJson.travel_time_minutes);
+          }
+        );
       })
       .catch(error => {
         console.log(error);
