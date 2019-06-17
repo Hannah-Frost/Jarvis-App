@@ -22,6 +22,7 @@ export default class CalendarPull extends Component {
         errorMessage: "Permission to access calendar was denied"
       });
     }
+<<<<<<< HEAD
     let localCalendars = await Expo.Calendar.getCalendarsAsync();
     let calIDs = [];
     localCalendars.map(calendar => {
@@ -30,6 +31,10 @@ export default class CalendarPull extends Component {
 
     this.setState({ localCalendars, calIDs });
   };
+=======
+
+    let localCalendars = await Expo.Calendar.getCalendarsAsync();
+>>>>>>> calendar api working
 
   getCalendarEventsAsync = async () => {
     let today = new Date();
