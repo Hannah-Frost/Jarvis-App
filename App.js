@@ -6,8 +6,10 @@ import {
   ActivityIndicator,
   Image,
   Button,
-  TextInput
+  TextInput,
+  Picker
 } from "react-native";
+import { createStackNavigator, createAppContainer } from "react-navigation";
 import * as Speech from "expo-speech";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
@@ -19,7 +21,7 @@ import { homeBackground } from "./app/utils/Colours";
 import TravelTime from "./app/components/TravelTime.js";
 import { journeyTime } from "./app/components/TravelTime.js";
 
-export default class App extends React.Component {
+class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.storeTravelTime = this.storeTravelTime.bind(this);
@@ -177,6 +179,31 @@ export default class App extends React.Component {
         </LinearGradient>
       );
     }
+  }
+}
+
+class SettingsScreen extends React.Component {
+  render() {
+    return (
+      <Text>Settings</Text>
+     )
+}
+
+const AppNavigator = createStackNavigator(
+  {
+    Home: HomeScreen,
+    Settings: SettingsScreen
+  },
+  {
+    initialRouteName: "Home"
+  }
+);
+
+const AppContainer = createAppContainer(AppNavigator);
+
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
   }
 }
 
