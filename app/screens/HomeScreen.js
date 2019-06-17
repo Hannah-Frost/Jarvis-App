@@ -14,16 +14,18 @@ import { LinearGradient } from "expo";
 import { Weather } from "../components/Weather";
 import weatherScript from "../utils/WeatherScript";
 import TravelTime from "../components/TravelTime.js";
+import CalendarPull from "../components/Calendar.js";
 import { journeyTime } from "../components/TravelTime.js";
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from "react-native";
 import { APP_ID } from "react-native-dotenv";
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
-    this._getLocationAsync = this._getLocationAsync.bind(this)
-    this.fetchWeather = this.fetchWeather.bind(this)
+    this._getLocationAsync = this._getLocationAsync.bind(this);
+    this.fetchWeather = this.fetchWeather.bind(this);
     this.storeTravelTime = this.storeTravelTime.bind(this);
+    this.storeEventDetails = this.storeEventDetails.bind(this);
     this.state = {
       isLoading: true,
       isLoadingSettings: true,
@@ -32,28 +34,28 @@ export default class HomeScreen extends React.Component {
       latitude: null,
       longitude: null,
       speechRate: 1.0,
-      destination: '',
-      name: 'x',
+      destination: "",
+      name: "x"
     };
   }
 
   _getSettings = async () => {
     AsyncStorage.getAllKeys((err, keys) => {
       AsyncStorage.multiGet(keys, (err, stores) => {
-        var array = []
+        var array = [];
         stores.map((result, i, store) => {
           let key = store[i][0];
           let value = store[i][1];
-          array.push(value)
+          array.push(value);
         });
-        this.setState({ name: array[0] })
-        this.setState({ destination: array[1] })
-        this.setState({ speechRate: array[2] })
+        this.setState({ name: array[0] });
+        this.setState({ destination: array[1] });
+        this.setState({ speechRate: array[2] });
       }).then(() => {
-        this.setState({ isLoadingSettings: false })
+        this.setState({ isLoadingSettings: false });
       });
     });
-  }
+  };
 
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -90,12 +92,18 @@ export default class HomeScreen extends React.Component {
     });
   }
 
+  storeEventDetails(eventDetails) {
+    this.setState({
+      eventDetails
+    });
+  }
+
   componentDidMount() {
     this._getSettings().then(() => {
       this._getLocationAsync().then(() => {
         this.fetchWeather(this.state.latitude, this.state.longitude);
       });
-    })
+    });
   }
 
   generateWeatherReport = () => {
@@ -128,8 +136,9 @@ export default class HomeScreen extends React.Component {
           weatherScript[allWeather[2]].later
         }.`;
       } else {
-        weatherReport += `It will also be ${allWeather[2]
-        }, and ${allWeather[3]} later.`;
+        weatherReport += `It will also be ${allWeather[2]}, and ${
+          allWeather[3]
+        } later.`;
       }
       weatherReport += `${weatherScript[allWeather[3]].advice}.,`;
     }
@@ -139,6 +148,17 @@ export default class HomeScreen extends React.Component {
     weatherReport += `Today it will take you ${
       this.state.travelTime
     } minutes to get to work.,`;
+    if (this.state.eventDetails != null) {
+      weatherReport += `Your next appointment is entitled ${this.state
+        .eventDetails && this.state.eventDetails.eventTitle},`;
+      weatherReport += `The location is ${this.state.eventDetails &&
+        this.state.eventDetails.eventLocation},`;
+      weatherReport += `It starts at ${this.state.eventDetails &&
+        this.state.eventDetails.eventStartTime}, and finishes at
+     ${this.state.eventDetails && this.state.eventDetails.eventEndTime}`;
+    } else {
+      weatherReport += `You have no appointments in your calendar`;
+    }
     return weatherReport;
   };
 
@@ -150,7 +170,8 @@ export default class HomeScreen extends React.Component {
           <ActivityIndicator />
         </View>
       );
-    } if (this.state.isLoading) {
+    }
+    if (this.state.isLoading) {
       return (
         <View style={styles.container}>
           <ActivityIndicator />
@@ -166,12 +187,14 @@ export default class HomeScreen extends React.Component {
           <View style={styles.container}>
             <View style={styles.buttonContainer}>
               <Button
-                onPress={() => _speak(weatherSummary, this.state.name, this.state.speechRate)}
+                onPress={() =>
+                  _speak(weatherSummary, this.state.name, this.state.speechRate)
+                }
                 title="Tell Me"
                 color="#0B3954"
               />
               <Button
-                onPress={() => this.props.navigation.navigate('Settings')}
+                onPress={() => this.props.navigation.navigate("Settings")}
                 title="Settings"
               />
             </View>
@@ -195,13 +218,14 @@ export default class HomeScreen extends React.Component {
 }
 
 _speak = (props, name, rate) => {
-  Speech.speak(`Good morning ${name}, this is your daily report: ${props}.`, { rate: rate })
+  Speech.speak(`Good morning ${name}, this is your daily report: ${props}.`, {
+    rate: rate
+  });
 };
-
 
 const styles = StyleSheet.create({
   backgroundContainer: {
-    flex: 1,
+    flex: 1
   },
   container: {
     flex: 1,
@@ -209,23 +233,23 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 18,
-    fontFamily: "Verdana",
+    fontFamily: "Verdana"
   },
   dateContainer: {
     marginTop: 30,
-    marginLeft: 20,
+    marginLeft: 20
   },
   buttonContainer: {
     marginTop: 50,
     backgroundColor: "#ffffff",
     marginLeft: 20,
     marginRight: 20,
-    borderRadius: 4,
+    borderRadius: 4
   },
   weatherContainer: {
     marginTop: 20,
     flexDirection: "row",
-    backgroundColor: "transparent",
+    backgroundColor: "transparent"
   },
   formContainer: {
     marginTop: 30,
@@ -235,13 +259,13 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     opacity: 0.9,
     backgroundColor: "#ffffff",
-    borderRadius: 4,
+    borderRadius: 4
   },
   settingsText: {
     fontSize: 18,
     fontFamily: "Verdana",
     marginTop: 10,
-    marginLeft: 20,
+    marginLeft: 20
   },
   speedContainer: {
     height: 250,
@@ -252,23 +276,23 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     opacity: 0.9,
     backgroundColor: "#ffffff",
-    borderRadius: 4,
+    borderRadius: 4
   },
   speedData: {
-    flexDirection: "row",
+    flexDirection: "row"
   },
   speedPicker: {
     marginTop: -5,
-    marginLeft: 20,
+    marginLeft: 20
   },
   speedSpeech: {
     marginTop: 50,
-    marginLeft: 160,
+    marginLeft: 160
   },
   volumeIcon: {
     height: 25,
     width: 25,
-    marginLeft: 75,
+    marginLeft: 75
   },
   saveButton: {
     marginTop: 200,
@@ -278,6 +302,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     opacity: 0.9,
     backgroundColor: "#ffffff",
-    borderRadius: 4,
+    borderRadius: 4
   }
 });
