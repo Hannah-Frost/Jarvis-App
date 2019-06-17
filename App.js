@@ -22,6 +22,7 @@ import { journeyTime } from "./app/components/TravelTime.js";
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.storeTravelTime = this.storeTravelTime.bind(this);
     this.state = {
       isLoading: true,
       dataSource: null,
@@ -112,10 +113,10 @@ export default class App extends React.Component {
     }
     weatherReport += `The temperature is currently ${[
       allTemp[0]
-    ]} degrees and will later be around ${[allTemp[3]]} degrees.`;
+    ]} degrees and will later be around ${[allTemp[3]]} degrees.,`;
     weatherReport += `Today it will take you ${
       this.state.travelTime
-    } minutes to get to work.`;
+    } minutes to get to work.,`;
     return weatherReport;
   };
 
@@ -155,8 +156,12 @@ export default class App extends React.Component {
               <Weather weatherData={this.state.dataSource} />
             </View>
             <View style={styles.dateContainer}>
-              <TravelTime postcode={this.state.postcode} />
+              <TravelTime
+                postcode={this.state.postcode}
+                storeTravelTime={this.storeTravelTime}
+              />
             </View>
+
             <View>
               <TextInput
                 style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
