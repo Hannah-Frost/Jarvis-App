@@ -86,11 +86,15 @@ export default class CalendarPull extends Component {
       new Date("2019-06-19")
     );
 <<<<<<< HEAD
+<<<<<<< HEAD
     this.setState({ events: myEvents });
     console.log(this.state.myEvents);
 >>>>>>> add calendar component, pulls all calendars and assigns ids
 =======
     let eventDetails = {
+=======
+    var eventDetails = {
+>>>>>>> eventDetails available in app.js confirmed line 188
       eventTitle: events[0].title,
       eventStartTime: events[0].startDate.replace(
         /^[^:]*([01]\d:[01]\d).*$/,
@@ -116,6 +120,7 @@ export default class CalendarPull extends Component {
   render() {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     if (this.state.eventDetails.eventTitle != null) {
       return (
         <View>
@@ -139,5 +144,9 @@ export default class CalendarPull extends Component {
 =======
     return <Text>{JSON.stringify(this.state.eventDetails)}</Text>;
 >>>>>>> retrieve first event of day and details, format time
+=======
+    var eventDetails = this.state.eventDetails;
+    return <Text>{JSON.stringify(eventDetails)}</Text>;
+>>>>>>> eventDetails available in app.js confirmed line 188
   }
 }
