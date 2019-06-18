@@ -24,17 +24,40 @@ export default class SettingsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: "",
+      destination: "",
       speechRate: 1.0,
     };
+  }
+
+  // getSettings = () => {
+  //   AsyncStorage.multiGet(['name', 'destination', 'speechRate']).then(response => {
+  //     response.map(store, i) => {
+  //       let key = store[i][0]
+  //       let value = store[i][1]
+  //       console.log(key)
+  //       console.log(value)
+  //     }
+  //   })
+  // }
+
+  _storeName = async () => {
+    try {
+      await AsyncStorage.setItem('name', this.state.name);
+      console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")
+    } catch (error) {
+      console.log("ERROR")
+    }
   }
 
   getSpeechRate = (number) => {
       this.setState({ speechRate: number })
    }
 
-   _saveSettings = () => {
-     // send speech rate to homescreen class
-   }
+   onSubmitEdit = e => {
+     let input = e.nativeEvent.text;
+
+   };
 
   render() {
     return (
@@ -44,11 +67,21 @@ export default class SettingsScreen extends React.Component {
        >
           <View style={styles.container}>
           <View style={styles.formContainer}>
+          <Text style={styles.settingsText}>Please enter your name:</Text>
+            <TextInput
+              style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+              onChangeText={name => this.setState({ name })}
+              value={this.state.name}
+              onSubmitEditing={this.onSubmitEdit}
+              autoCompleteType={"postal-code"}
+              returnKeyType={"done"}
+              clearTextOnFocus={true}
+            />
           <Text style={styles.settingsText}>Please enter Destination:</Text>
             <TextInput
               style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
-              onChangeText={text => this.setState({ text })}
-              value={this.state.text}
+              onChangeText={destination => this.setState({ destination })}
+              value={this.state.destination}
               onSubmitEditing={this.onSubmitEdit}
               autoCompleteType={"postal-code"}
               returnKeyType={"done"}
@@ -82,8 +115,8 @@ export default class SettingsScreen extends React.Component {
             </View>
             <View style={styles.saveButton}>
               <Button
-                onPress={() => this._saveSettings}
-                onPress={() => this.props.navigation.navigate('Home')}
+                onPress={() => this._storeName()}
+                // onPress={() => this.props.navigation.navigate('Home')}
                 title="Save Changes"
                 color="#0B3954"
               />
@@ -166,7 +199,7 @@ const styles = StyleSheet.create({
     marginLeft: 75,
   },
   saveButton: {
-    marginTop: 200,
+    marginTop: 30,
     marginLeft: 20,
     marginRight: 20,
     paddingTop: 10,

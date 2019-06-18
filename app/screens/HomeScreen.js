@@ -28,10 +28,20 @@ export default class HomeScreen extends React.Component {
       weatherReport: null,
       latitude: null,
       longitude: null,
-      text: "Enter Postcode",
-      postcode: "",
       speechRate: 1.0,
+      name: '',
     };
+  }
+
+  _getName = async () => {
+    try {
+      const name = await AsyncStorage.getItem('name');
+      if (name !== null) {
+        this.setState({name: name})
+      }
+    } catch (error) {
+      console.log("ERROR")
+    }
   }
 
   _getLocationAsync = async () => {
@@ -119,34 +129,8 @@ export default class HomeScreen extends React.Component {
     return weatherReport;
   };
 
-  onSubmitEdit = e => {
-    let input = e.nativeEvent.text;
-    this.setState({ postcode: input });
-  };
-
-_savePostcode = async (postcode) => {
-  try {
-    await AsyncStorage.setItem('@destinationPostcode',  postcode);
-  } catch (error) {
-    console.log("Error while saving data")
-  }
-  console.log("saving postcode" + postcode)
-};
-
-_getSavedPostcode = async () => {
-  try {
-    const destinationPostcode = await AsyncStorage.getItem('@destinationPostcode');
-    if (postcode !== null) {
-      // We have data!!
-      console.log("retrieving postcode" + destinationPostcode);
-      this.setState({ postcode: destinationPostcode })
-    }
-  } catch (error) {
-    console.log('Error retrieving data')
-  }
-};
-
   render() {
+    this._getName()
     let date = Date(Date.now().toString()).substring(0, 16);
     if (this.state.isLoading) {
       return (
@@ -164,7 +148,7 @@ _getSavedPostcode = async () => {
           <View style={styles.container}>
             <View style={styles.buttonContainer}>
               <Button
-                onPress={() => _speak(weatherSummary, this.state.speechRate)}
+                onPress={() => _speak(weatherSummary, this.state.name, this.state.speechRate)}
                 title="Tell Me"
                 color="#0B3954"
               />
@@ -193,8 +177,8 @@ _getSavedPostcode = async () => {
   }
 }
 
-_speak = (props, rate) => {
-  Speech.speak(`Good morning, this is your daily report: ${props}.`, { rate: rate })
+_speak = (props, name, rate) => {
+  Speech.speak(`Good morning ${name}, this is your daily report: ${props}.`, { rate: rate })
 };
 
 
