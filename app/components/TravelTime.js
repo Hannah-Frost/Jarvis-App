@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as Expo from "expo";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 
 export default class TravelTime extends Component {
   constructor() {
@@ -79,7 +79,6 @@ export default class TravelTime extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    // only update chart if the data has changed
     if (prevProps.postcode !== this.props.postcode) {
       this.updateDestination();
     }
@@ -94,7 +93,12 @@ export default class TravelTime extends Component {
         </Text>
       );
     } else {
-      return <Text>Please enter your postcode</Text>;
+      return (
+      <Button
+        onPress={() => this.props.navigation.navigate('Settings')}
+        title="Update your Travel destination"
+      />
+    )
     }
   }
 }
