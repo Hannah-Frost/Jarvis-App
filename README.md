@@ -19,7 +19,9 @@
 
 ## Tracking Our Project
 
-  We are using our [wiki page](https://github.com/Hannah-Frost/Jarvis-App/wiki) to reflect and track our progress.
+  We are using our GitHub [wiki page](https://github.com/Hannah-Frost/Jarvis-App/wiki) to reflect and track our progress each day.
+
+  We are using our GitHub [projects page](https://github.com/Hannah-Frost/Jarvis-App/projects/1) to monitor our user stories.
 
 ## User Stories
 ```
