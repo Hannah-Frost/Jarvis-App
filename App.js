@@ -24,6 +24,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.storeTravelTime = this.storeTravelTime.bind(this);
+    this.storeEventDetails = this.storeEventDetails.bind(this);
     this.state = {
       isLoading: true,
       dataSource: null,
@@ -67,6 +68,12 @@ export default class App extends React.Component {
   storeTravelTime(travelTime) {
     this.setState({
       travelTime
+    });
+  }
+
+  storeEventDetails(eventDetails) {
+    this.setState({
+      eventDetails
     });
   }
 
@@ -174,7 +181,7 @@ export default class App extends React.Component {
               />
             </View>
             <View>
-              <CalendarPull />
+              <CalendarPull storeEventDetails={this.storeEventDetails} />
             </View>
           </View>
         </LinearGradient>
