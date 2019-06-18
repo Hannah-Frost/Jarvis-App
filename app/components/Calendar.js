@@ -75,19 +75,36 @@ export default class CalendarPull extends Component {
   };
 
   getCalendarEventsAsync = async () => {
-    let myEvents = await Expo.Calendar.getEventsAsync(
+    let events = await Expo.Calendar.getEventsAsync(
       [
         this.state.calendarIDs.id1,
         this.state.calendarIDs.id2,
         this.state.calendarIDs.id3,
         this.state.calendarIDs.id4
       ],
-      new Date(),
-      new Date("2019-11-01")
+      new Date("2019-06-18"),
+      new Date("2019-06-19")
     );
+<<<<<<< HEAD
     this.setState({ events: myEvents });
     console.log(this.state.myEvents);
 >>>>>>> add calendar component, pulls all calendars and assigns ids
+=======
+    let eventDetails = {
+      eventTitle: events[0].title,
+      eventStartTime: events[0].startDate.replace(
+        /^[^:]*([01]\d:[01]\d).*$/,
+        "$1"
+      ),
+      eventEndTime: events[0].endDate.replace(/^[^:]*([01]\d:[01]\d).*$/, "$1"),
+      eventLocation: events[0].location
+    };
+    // this.setState({ events: events });
+    console.log(eventDetails);
+    this.setState({ events, eventDetails }, () => {
+      this.props.storeEventDetails(eventDetails);
+    });
+>>>>>>> retrieve first event of day and details, format time
   };
 
   componentDidMount() {
@@ -97,6 +114,7 @@ export default class CalendarPull extends Component {
   }
 
   render() {
+<<<<<<< HEAD
 <<<<<<< HEAD
     if (this.state.eventDetails.eventTitle != null) {
       return (
@@ -118,5 +136,8 @@ export default class CalendarPull extends Component {
 =======
     return <Text>{this.state.events}</Text>;
 >>>>>>> add calendar component, pulls all calendars and assigns ids
+=======
+    return <Text>{JSON.stringify(this.state.eventDetails)}</Text>;
+>>>>>>> retrieve first event of day and details, format time
   }
 }
