@@ -33,7 +33,6 @@ export default class TravelTime extends Component {
   };
 
   getDestinationAsync = async () => {
-    console.log(this.props.postcode);
     let destination = await Expo.Location.geocodeAsync(this.props.postcode);
 
     let destinationCoords = {
@@ -60,9 +59,7 @@ export default class TravelTime extends Component {
           }
         );
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   }
 
   updateDestination = () => {

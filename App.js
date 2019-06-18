@@ -196,8 +196,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start"
   },
   dateText: {
-    fontSize: 18,
-    fontFamily: "Verdana"
+    fontSize: 18
   },
   dateContainer: {
     marginTop: 30,
