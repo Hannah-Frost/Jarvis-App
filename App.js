@@ -125,6 +125,7 @@ export default class App extends React.Component {
     weatherReport += `Today it will take you ${
       this.state.travelTime
     } minutes to get to work.,`;
+    weatherReport += `Your next appointment is entitled`;
     return weatherReport;
   };
 
@@ -169,6 +170,7 @@ export default class App extends React.Component {
                 storeTravelTime={this.storeTravelTime}
               />
             </View>
+
             <View>
               <TextInput
                 style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
@@ -183,6 +185,7 @@ export default class App extends React.Component {
             <View>
               <CalendarPull storeEventDetails={this.storeEventDetails} />
             </View>
+            <View>{console.log(this.state.eventDetails)}</View>
           </View>
         </LinearGradient>
       );

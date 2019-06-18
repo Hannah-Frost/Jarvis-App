@@ -45,7 +45,7 @@ export default class CalendarPull extends Component {
       new Date("2019-06-18"),
       new Date("2019-06-19")
     );
-    let eventDetails = {
+    var eventDetails = {
       eventTitle: events[0].title,
       eventStartTime: events[0].startDate.replace(
         /^[^:]*([01]\d:[01]\d).*$/,
@@ -68,6 +68,7 @@ export default class CalendarPull extends Component {
   }
 
   render() {
-    return <Text>{JSON.stringify(this.state.eventDetails)}</Text>;
+    var eventDetails = this.state.eventDetails;
+    return <Text>{JSON.stringify(eventDetails)}</Text>;
   }
 }
