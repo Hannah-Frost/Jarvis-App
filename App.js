@@ -108,8 +108,7 @@ class HomeScreen extends React.Component {
           weatherScript[allWeather[2]].later
         }.`;
       } else {
-        weatherReport += `It will also be ${
-          weatherScript[allWeather[2]]
+        weatherReport += `It will also be ${allWeather[2]
         }, and ${allWeather[3]} later.`;
       }
       weatherReport += `${weatherScript[allWeather[3]].advice}.,`;
