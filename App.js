@@ -6,8 +6,10 @@ import {
   ActivityIndicator,
   Image,
   Button,
-  TextInput
+  TextInput,
+  Picker
 } from "react-native";
+import { createStackNavigator, createAppContainer } from "react-navigation";
 import * as Speech from "expo-speech";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
@@ -19,7 +21,7 @@ import { homeBackground } from "./app/utils/Colours";
 import TravelTime from "./app/components/TravelTime.js";
 import { journeyTime } from "./app/components/TravelTime.js";
 
-export default class App extends React.Component {
+class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.storeTravelTime = this.storeTravelTime.bind(this);
@@ -30,7 +32,8 @@ export default class App extends React.Component {
       latitude: null,
       longitude: null,
       text: "Enter Postcode",
-      postcode: ""
+      postcode: "",
+      speechRate: 1.0,
     };
   }
 
@@ -105,8 +108,7 @@ export default class App extends React.Component {
           weatherScript[allWeather[2]].later
         }.`;
       } else {
-        weatherReport += `It will also be ${
-          weatherScript[allWeather[2]]
+        weatherReport += `It will also be ${allWeather[2]
         }, and ${allWeather[3]} later.`;
       }
       weatherReport += `${weatherScript[allWeather[3]].advice}.,`;
@@ -143,10 +145,13 @@ export default class App extends React.Component {
           <View style={styles.container}>
             <View style={styles.buttonContainer}>
               <Button
-                style={styles.tellMeButton}
-                onPress={() => _speak(weatherSummary)}
+                onPress={() => _speak(weatherSummary, this.state.speechRate)}
                 title="Tell Me"
                 color="#0B3954"
+              />
+              <Button
+                onPress={() => this.props.navigation.navigate('Settings')}
+                title="Settings"
               />
             </View>
             <View style={styles.dateContainer}>
@@ -180,13 +185,93 @@ export default class App extends React.Component {
   }
 }
 
-_speak = props => {
-  Speech.speak(`Good morning, this is your daily report: ${props}.`);
+class SettingsScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      speechRate: 1.0,
+    };
+  }
+
+  getSpeechRate = (number) => {
+      this.setState({ speechRate: number })
+   }
+
+   _saveSettings = () => {
+     // send speech rate to homescreen class
+   }
+
+  render() {
+    return (
+      <LinearGradient
+       colors={['#2980B9', '#6DD5FA', '#FFFFFF']}
+       style={styles.backgroundContainer}
+       >
+          <View style={styles.container}>
+            <View style={styles.speedContainer}>
+              <Text style={styles.speedText}>Change the speech speed:</Text>
+                <View style={styles.speedPicker}>
+                  <Picker
+                    selectedValue={this.state.speechRate}
+                    style={{height: 20, width: 130}}
+                    onValueChange={(itemValue, itemIndex) =>
+                      this.setState({speechRate: itemValue})
+                    }>
+                    <Picker.Item label="0.8" value="0.8" />
+                    <Picker.Item label="0.9" value="0.9" />
+                    <Picker.Item label="1.0 (original)" value="1.0" />
+                    <Picker.Item label="1.1" value="1.1" />
+                    <Picker.Item label="1.2" value="1.2" />
+                  </Picker>
+                </View>
+                <View style={styles.speedSpeech}>
+                  <Button
+                    onPress={() => Speech.speak("Hello! How does this sound?", { rate: this.state.speechRate })}
+                    title="Test Speech"
+                    color="#0B3954"
+                  />
+                  <Image style={styles.volumeIcon} source={require("./assets/images/Volume.png")} />
+                </View>
+            </View>
+            <View style={styles.saveButton}>
+              <Button
+                onPress={() => this._saveSettings}
+                onPress={() => this.props.navigation.navigate('Home')}
+                title="Save Changes"
+                color="#0B3954"
+              />
+            </View>
+         </View>
+       </LinearGradient>
+     )
+   }
+}
+
+const AppNavigator = createStackNavigator(
+  {
+    Home: HomeScreen,
+    Settings: SettingsScreen
+  },
+  {
+    initialRouteName: "Home"
+  }
+);
+
+const AppContainer = createAppContainer(AppNavigator);
+
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
+  }
+};
+
+_speak = (props, rate) => {
+  Speech.speak(`Good morning, this is your daily report: ${props}.`, { rate: rate })
 };
 
 const styles = StyleSheet.create({
   backgroundContainer: {
-    flex: 1
+    flex: 1,
   },
   container: {
     flex: 1,
@@ -194,22 +279,65 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 18,
-    fontFamily: "Verdana"
+    fontFamily: "Verdana",
   },
   dateContainer: {
     marginTop: 30,
-    marginLeft: 20
+    marginLeft: 20,
   },
   buttonContainer: {
     marginTop: 50,
     backgroundColor: "#ffffff",
     marginLeft: 20,
     marginRight: 20,
-    borderRadius: 4
+    borderRadius: 4,
   },
   weatherContainer: {
-    marginTop: 30,
+    marginTop: 20,
     flexDirection: "row",
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+  },
+  speedText: {
+    fontSize: 18,
+    fontFamily: "Verdana",
+    marginTop: 10,
+    marginLeft: 20,
+  },
+  speedContainer: {
+    height: 250,
+    marginTop: 30,
+    marginLeft: 20,
+    marginRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    opacity: 0.9,
+    backgroundColor: "#ffffff",
+    borderRadius: 4,
+  },
+  speedData: {
+    flexDirection: "row",
+  },
+  speedPicker: {
+    marginTop: -5,
+    marginLeft: 20,
+  },
+  speedSpeech: {
+    marginTop: 50,
+    marginLeft: 160,
+  },
+  volumeIcon: {
+    height: 25,
+    width: 25,
+    marginLeft: 75,
+  },
+  saveButton: {
+    marginTop: 200,
+    marginLeft: 20,
+    marginRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    opacity: 0.9,
+    backgroundColor: "#ffffff",
+    borderRadius: 4,
   }
 });
