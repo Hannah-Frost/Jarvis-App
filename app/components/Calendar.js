@@ -10,8 +10,12 @@ export default class CalendarPull extends Component {
     this.state = {
       errorMessage: null,
       localCalendars: null,
+<<<<<<< HEAD
       events: null,
       eventDetails: {}
+=======
+      events: null
+>>>>>>> add calendar component, pulls all calendars and assigns ids
     };
   }
 
@@ -22,6 +26,7 @@ export default class CalendarPull extends Component {
         errorMessage: "Permission to access calendar was denied"
       });
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
     let localCalendars = await Expo.Calendar.getCalendarsAsync();
     let calIDs = [];
@@ -55,6 +60,34 @@ export default class CalendarPull extends Component {
     this.setState({ events, eventDetails }, () => {
       this.props.storeEventDetails(eventDetails);
     });
+=======
+    let localCalendars = await Expo.Calendar.getCalendarsAsync("event");
+    console.log(localCalendars.length);
+    let calendarIDs = {
+      id1: localCalendars[0].id,
+      id2: localCalendars[1].id,
+      id3: localCalendars[2].id,
+      id4: localCalendars[3].id
+    };
+    this.setState({ localCalendars, calendarIDs });
+    // console.log(this.state.localCalendars);
+    // console.log(new Date("2019-07-14"));
+  };
+
+  getCalendarEventsAsync = async () => {
+    let myEvents = await Expo.Calendar.getEventsAsync(
+      [
+        this.state.calendarIDs.id1,
+        this.state.calendarIDs.id2,
+        this.state.calendarIDs.id3,
+        this.state.calendarIDs.id4
+      ],
+      new Date(),
+      new Date("2019-11-01")
+    );
+    this.setState({ events: myEvents });
+    console.log(this.state.myEvents);
+>>>>>>> add calendar component, pulls all calendars and assigns ids
   };
 
   componentDidMount() {
@@ -64,6 +97,7 @@ export default class CalendarPull extends Component {
   }
 
   render() {
+<<<<<<< HEAD
     if (this.state.eventDetails.eventTitle != null) {
       return (
         <View>
@@ -81,5 +115,8 @@ export default class CalendarPull extends Component {
           <Text>No appointments today</Text>
         </View>
       );
+=======
+    return <Text>{this.state.events}</Text>;
+>>>>>>> add calendar component, pulls all calendars and assigns ids
   }
 }
