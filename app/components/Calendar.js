@@ -22,7 +22,7 @@ export default class CalendarPull extends Component {
       });
     }
     let localCalendars = await Expo.Calendar.getCalendarsAsync("event");
-    console.log(localCalendars.length);
+    // console.log(localCalendars.length);
     let calendarIDs = {
       id1: localCalendars[0].id,
       id2: localCalendars[1].id,
@@ -55,9 +55,9 @@ export default class CalendarPull extends Component {
       eventLocation: events[0].location
     };
     // this.setState({ events: events });
-    console.log(eventDetails);
     this.setState({ events, eventDetails }, () => {
-      this.props.storeEventDetails(eventDetails);
+      console.log(this.state);
+      this.props.storeEventDetails({ eventDetails });
     });
   };
 
