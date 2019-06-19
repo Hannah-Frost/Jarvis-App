@@ -21,27 +21,38 @@ import { APP_ID } from "react-native-dotenv";
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
+    this._getLocationAsync = this._getLocationAsync.bind(this)
+    this.fetchWeather = this.fetchWeather.bind(this)
     this.storeTravelTime = this.storeTravelTime.bind(this);
     this.state = {
       isLoading: true,
+      isLoadingSettings: true,
       dataSource: null,
       weatherReport: null,
       latitude: null,
       longitude: null,
       speechRate: 1.0,
-      name: '',
+      destination: '',
+      name: 'x',
     };
   }
 
-  _getName = async () => {
-    try {
-      const name = await AsyncStorage.getItem('name');
-      if (name !== null) {
-        this.setState({name: name})
-      }
-    } catch (error) {
-      console.log("ERROR")
-    }
+  _getSettings = async () => {
+    AsyncStorage.getAllKeys((err, keys) => {
+      AsyncStorage.multiGet(keys, (err, stores) => {
+        var array = []
+        stores.map((result, i, store) => {
+          let key = store[i][0];
+          let value = store[i][1];
+          array.push(value)
+        });
+        this.setState({ name: array[0] })
+        this.setState({ destination: array[1] })
+        this.setState({ speechRate: array[2] })
+      }).then(() => {
+        this.setState({ isLoadingSettings: false })
+      });
+    });
   }
 
   _getLocationAsync = async () => {
@@ -80,9 +91,11 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    this._getLocationAsync().then(() => {
-      this.fetchWeather(this.state.latitude, this.state.longitude);
-    });
+    this._getSettings().then(() => {
+      this._getLocationAsync().then(() => {
+        this.fetchWeather(this.state.latitude, this.state.longitude);
+      });
+    })
   }
 
   generateWeatherReport = () => {
@@ -130,9 +143,14 @@ export default class HomeScreen extends React.Component {
   };
 
   render() {
-    this._getName()
     let date = Date(Date.now().toString()).substring(0, 16);
-    if (this.state.isLoading) {
+    if (this.state.isLoadingSettings) {
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator />
+        </View>
+      );
+    } if (this.state.isLoading) {
       return (
         <View style={styles.container}>
           <ActivityIndicator />
@@ -166,7 +184,6 @@ export default class HomeScreen extends React.Component {
             <View style={styles.dateContainer}>
               <TravelTime
                 navigation={this.props.navigation}
-                postcode={this.state.postcode}
                 storeTravelTime={this.storeTravelTime}
               />
             </View>

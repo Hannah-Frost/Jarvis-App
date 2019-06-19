@@ -30,29 +30,20 @@ export default class SettingsScreen extends React.Component {
     };
   }
 
-  // getSettings = () => {
-  //   AsyncStorage.multiGet(['name', 'destination', 'speechRate']).then(response => {
-  //     response.map(store, i) => {
-  //       let key = store[i][0]
-  //       let value = store[i][1]
-  //       console.log(key)
-  //       console.log(value)
-  //     }
-  //   })
-  // }
-
-  _storeName = async () => {
-    try {
-      await AsyncStorage.setItem('name', this.state.name);
-      console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")
-    } catch (error) {
-      console.log("ERROR")
+  _storeSettings = () => {
+    var name = ''
+    var destination = ''
+    var settings = [['speechRate', this.state.speechRate]]
+    if (this.state.name !== '') {
+      name = this.state.name
+      settings.push(['name', name])
+    } if (this.state.destination !== '') {
+      destination = this.state.destination
+      settings.push(['destination', destination])
     }
+    AsyncStorage.multiSet(settings, () => { console.log(name) } )
+    this.props.navigation.navigate('Home')
   }
-
-  getSpeechRate = (number) => {
-      this.setState({ speechRate: number })
-   }
 
    onSubmitEdit = e => {
      let input = e.nativeEvent.text;
@@ -115,8 +106,7 @@ export default class SettingsScreen extends React.Component {
             </View>
             <View style={styles.saveButton}>
               <Button
-                onPress={() => this._storeName()}
-                // onPress={() => this.props.navigation.navigate('Home')}
+                onPress={() => this._storeSettings()}
                 title="Save Changes"
                 color="#0B3954"
               />
