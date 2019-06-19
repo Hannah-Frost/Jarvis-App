@@ -125,13 +125,17 @@ export default class App extends React.Component {
     weatherReport += `Today it will take you ${
       this.state.travelTime
     } minutes to get to work.,`;
-    weatherReport += `Your next appointment is entitled ${this.state
-      .eventDetails && this.state.eventDetails.eventTitle},`;
-    weatherReport += `The location is ${this.state.eventDetails &&
-      this.state.eventDetails.eventLocation},`;
-    weatherReport += `It starts at ${this.state.eventDetails &&
-      this.state.eventDetails.eventStartTime}, and finishes at
+    if (this.state.eventDetails != null) {
+      weatherReport += `Your next appointment is entitled ${this.state
+        .eventDetails && this.state.eventDetails.eventTitle},`;
+      weatherReport += `The location is ${this.state.eventDetails &&
+        this.state.eventDetails.eventLocation},`;
+      weatherReport += `It starts at ${this.state.eventDetails &&
+        this.state.eventDetails.eventStartTime}, and finishes at
       ${this.state.eventDetails && this.state.eventDetails.eventEndTime}`;
+    } else {
+      weatherReport += `You have no appointments in your calendar`;
+    }
     return weatherReport;
   };
 

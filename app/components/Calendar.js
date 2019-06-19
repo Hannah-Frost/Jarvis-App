@@ -22,26 +22,21 @@ export default class CalendarPull extends Component {
         errorMessage: "Permission to access calendar was denied"
       });
     }
-    let localCalendars = await Expo.Calendar.getCalendarsAsync("event");
-    let calendarIDs = {
-      id1: localCalendars[0].id,
-      id2: localCalendars[1].id,
-      id3: localCalendars[2].id,
-      id4: localCalendars[3].id
-    };
-    this.setState({ localCalendars, calendarIDs });
+    let localCalendars = await Expo.Calendar.getCalendarsAsync();
+    let calIDs = [];
+    localCalendars.map(calendar => {
+      calIDs.push(calendar.id);
+    });
+
+    this.setState({ localCalendars, calIDs });
   };
 
   getCalendarEventsAsync = async () => {
+    let today = new Date();
     let events = await Expo.Calendar.getEventsAsync(
-      [
-        this.state.calendarIDs.id1,
-        this.state.calendarIDs.id2,
-        this.state.calendarIDs.id3,
-        this.state.calendarIDs.id4
-      ],
-      new Date("2019-06-18"),
-      new Date("2019-06-19")
+      this.state.calIDs,
+      new Date(),
+      new Date(today.getTime() + 24 * 60 * 60 * 1000)
     );
     var eventDetails = {
       eventTitle: events[0].title,
@@ -64,16 +59,22 @@ export default class CalendarPull extends Component {
   }
 
   render() {
-    var eventDetails = this.state.eventDetails;
-    return (
-      <View>
-        <Text>
-          Today's first appointment: {this.state.eventDetails.eventTitle}
-        </Text>
-        <Text>Location: {this.state.eventDetails.eventLocation}</Text>
-        <Text>Starts: {this.state.eventDetails.eventStartTime}</Text>
-        <Text>Ends: {this.state.eventDetails.eventEndTime}</Text>
-      </View>
-    );
+    if (this.state.eventDetails.eventTitle != null) {
+      return (
+        <View>
+          <Text>
+            Today's first appointment: {this.state.eventDetails.eventTitle}
+          </Text>
+          <Text>Location: {this.state.eventDetails.eventLocation}</Text>
+          <Text>Starts: {this.state.eventDetails.eventStartTime}</Text>
+          <Text>Ends: {this.state.eventDetails.eventEndTime}</Text>
+        </View>
+      );
+    } else
+      return (
+        <View>
+          <Text>No appointments today</Text>
+        </View>
+      );
   }
 }
