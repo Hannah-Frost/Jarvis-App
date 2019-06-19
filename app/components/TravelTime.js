@@ -13,15 +13,15 @@ export default class TravelTime extends Component {
       destination: null,
       errorMessage: null,
       dataSource: null,
-      postcode: '',
+      postcode: ""
     };
   }
 
   _getPostcode = async () => {
-    var postcode = await AsyncStorage.getItem('destination')
-    console.log(postcode)
-    this.setState({ postcode })
-  }
+    var postcode = await AsyncStorage.getItem("destination");
+    console.log(postcode);
+    this.setState({ postcode });
+  };
 
   getLocationAsync = async () => {
     let { status } = await Expo.Permissions.askAsync(Expo.Permissions.LOCATION);
@@ -67,9 +67,7 @@ export default class TravelTime extends Component {
           }
         );
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   }
 
   updateDestination = () => {
@@ -86,7 +84,7 @@ export default class TravelTime extends Component {
   };
 
   componentDidMount() {
-    this._getPostcode()
+    this._getPostcode();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -105,11 +103,11 @@ export default class TravelTime extends Component {
       );
     } else {
       return (
-      <Button
-        onPress={() => this.props.navigation.navigate('Settings')}
-        title="Update your Travel destination"
-      />
-    )
+        <Button
+          onPress={() => this.props.navigation.navigate("Settings")}
+          title="Update your Travel destination"
+        />
+      );
     }
   }
 }
