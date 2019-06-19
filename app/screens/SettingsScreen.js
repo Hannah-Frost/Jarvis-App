@@ -26,7 +26,7 @@ export default class SettingsScreen extends React.Component {
     this.state = {
       name: "",
       destination: "",
-      speechRate: 1.0,
+      speechRate: "1.0",
     };
   }
 

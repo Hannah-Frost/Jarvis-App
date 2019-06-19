@@ -33,7 +33,7 @@ export default class HomeScreen extends React.Component {
       longitude: null,
       speechRate: 1.0,
       destination: '',
-      name: 'x',
+      name: '',
     };
   }
 
@@ -136,9 +136,11 @@ export default class HomeScreen extends React.Component {
     weatherReport += `The temperature is currently ${[
       allTemp[0]
     ]} degrees and will later be around ${[allTemp[3]]} degrees.,`;
-    weatherReport += `Today it will take you ${
-      this.state.travelTime
-    } minutes to get to work.,`;
+    if (this.state.travelTime !== undefined) {
+      weatherReport += `Today it will take you ${
+        this.state.travelTime
+      } minutes to get to work.,`;
+    }
     return weatherReport;
   };
 
@@ -169,6 +171,10 @@ export default class HomeScreen extends React.Component {
                 onPress={() => _speak(weatherSummary, this.state.name, this.state.speechRate)}
                 title="Tell Me"
                 color="#0B3954"
+              />
+              <Button
+                onPress={() => Speech.stop()}
+                title="Stop"
               />
               <Button
                 onPress={() => this.props.navigation.navigate('Settings')}

@@ -25,7 +25,7 @@ const weatherScript = {
     current: "sunny right now",
     soon: "will soon be sunny",
     later: "sunny later",
-    advice: "So don't forget your sun cream!",
+    advice: "So dress lightly!",
   },
 }
 
