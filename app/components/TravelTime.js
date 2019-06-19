@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as Expo from "expo";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button, AsyncStorage } from "react-native";
 
 export default class TravelTime extends Component {
   constructor() {
@@ -12,8 +12,15 @@ export default class TravelTime extends Component {
       currentLocation: null,
       destination: null,
       errorMessage: null,
-      dataSource: null
+      dataSource: null,
+      postcode: '',
     };
+  }
+
+  _getPostcode = async () => {
+    var postcode = await AsyncStorage.getItem('destination')
+    console.log(postcode)
+    this.setState({ postcode })
   }
 
   getLocationAsync = async () => {
@@ -33,8 +40,8 @@ export default class TravelTime extends Component {
   };
 
   getDestinationAsync = async () => {
-    console.log(this.props.postcode);
-    let destination = await Expo.Location.geocodeAsync(this.props.postcode);
+    console.log(this.state.postcode);
+    let destination = await Expo.Location.geocodeAsync(this.state.postcode);
 
     let destinationCoords = {
       lat: destination[0].latitude,
@@ -78,23 +85,31 @@ export default class TravelTime extends Component {
     });
   };
 
+  componentDidMount() {
+    this._getPostcode()
+  }
+
   componentDidUpdate(prevProps, prevState) {
-    // only update chart if the data has changed
-    if (prevProps.postcode !== this.props.postcode) {
+    if (prevState.postcode !== this.state.postcode) {
       this.updateDestination();
     }
   }
 
   render() {
     var journeyTime = this.state.dataSource;
-    if (this.props.postcode != "" && journeyTime != null) {
+    if (this.state.postcode != "" && journeyTime != null) {
       return (
         <Text>
-          Today's commute: {journeyTime} minutes to {this.props.postcode}
+          Today's commute: {journeyTime} minutes to {this.state.postcode}
         </Text>
       );
     } else {
-      return <Text>Please enter your postcode</Text>;
+      return (
+      <Button
+        onPress={() => this.props.navigation.navigate('Settings')}
+        title="Update your Travel destination"
+      />
+    )
     }
   }
 }
