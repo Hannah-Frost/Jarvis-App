@@ -10,7 +10,8 @@ export default class CalendarPull extends Component {
     this.state = {
       errorMessage: null,
       localCalendars: null,
-      events: null
+      events: null,
+      eventDetails: {}
     };
   }
 
@@ -56,8 +57,7 @@ export default class CalendarPull extends Component {
     };
     // this.setState({ events: events });
     this.setState({ events, eventDetails }, () => {
-      console.log(this.state);
-      this.props.storeEventDetails({ eventDetails });
+      this.props.storeEventDetails(eventDetails);
     });
   };
 
@@ -68,7 +68,8 @@ export default class CalendarPull extends Component {
   }
 
   render() {
+    console.log(this.state.eventDetails);
     var eventDetails = this.state.eventDetails;
-    return <Text>{JSON.stringify(eventDetails)}</Text>;
+    return <Text>{this.state.eventDetails.eventTitle}</Text>;
   }
 }
