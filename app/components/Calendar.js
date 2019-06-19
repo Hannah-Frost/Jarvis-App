@@ -11,11 +11,16 @@ export default class CalendarPull extends Component {
       errorMessage: null,
       localCalendars: null,
 <<<<<<< HEAD
+<<<<<<< HEAD
       events: null,
       eventDetails: {}
 =======
       events: null
 >>>>>>> add calendar component, pulls all calendars and assigns ids
+=======
+      events: null,
+      eventDetails: {}
+>>>>>>> calendar event dtails acvailable in calendar render fixed
     };
   }
 
@@ -105,8 +110,7 @@ export default class CalendarPull extends Component {
     };
     // this.setState({ events: events });
     this.setState({ events, eventDetails }, () => {
-      console.log(this.state);
-      this.props.storeEventDetails({ eventDetails });
+      this.props.storeEventDetails(eventDetails);
     });
 >>>>>>> retrieve first event of day and details, format time
   };
@@ -118,6 +122,7 @@ export default class CalendarPull extends Component {
   }
 
   render() {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -148,5 +153,10 @@ export default class CalendarPull extends Component {
     var eventDetails = this.state.eventDetails;
     return <Text>{JSON.stringify(eventDetails)}</Text>;
 >>>>>>> eventDetails available in app.js confirmed line 188
+=======
+    console.log(this.state.eventDetails);
+    var eventDetails = this.state.eventDetails;
+    return <Text>{this.state.eventDetails.eventTitle}</Text>;
+>>>>>>> calendar event dtails acvailable in calendar render fixed
   }
 }
