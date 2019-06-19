@@ -67,7 +67,6 @@ export default class CalendarPull extends Component {
     });
 =======
     let localCalendars = await Expo.Calendar.getCalendarsAsync("event");
-    // console.log(localCalendars.length);
     let calendarIDs = {
       id1: localCalendars[0].id,
       id2: localCalendars[1].id,
@@ -75,8 +74,6 @@ export default class CalendarPull extends Component {
       id4: localCalendars[3].id
     };
     this.setState({ localCalendars, calendarIDs });
-    // console.log(this.state.localCalendars);
-    // console.log(new Date("2019-07-14"));
   };
 
   getCalendarEventsAsync = async () => {
@@ -108,7 +105,6 @@ export default class CalendarPull extends Component {
       eventEndTime: events[0].endDate.replace(/^[^:]*([01]\d:[01]\d).*$/, "$1"),
       eventLocation: events[0].location
     };
-    // this.setState({ events: events });
     this.setState({ events, eventDetails }, () => {
       this.props.storeEventDetails(eventDetails);
     });
@@ -122,6 +118,7 @@ export default class CalendarPull extends Component {
   }
 
   render() {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -158,5 +155,18 @@ export default class CalendarPull extends Component {
     var eventDetails = this.state.eventDetails;
     return <Text>{this.state.eventDetails.eventTitle}</Text>;
 >>>>>>> calendar event dtails acvailable in calendar render fixed
+=======
+    var eventDetails = this.state.eventDetails;
+    return (
+      <View>
+        <Text>
+          Today's first appointment: {this.state.eventDetails.eventTitle}
+        </Text>
+        <Text>Location: {this.state.eventDetails.eventLocation}</Text>
+        <Text>Starts: {this.state.eventDetails.eventStartTime}</Text>
+        <Text>Ends: {this.state.eventDetails.eventEndTime}</Text>
+      </View>
+    );
+>>>>>>> calednar wrking
   }
 }
