@@ -34,8 +34,8 @@ export default class HomeScreen extends React.Component {
       latitude: null,
       longitude: null,
       speechRate: 1.0,
-      destination: "",
-      name: "x"
+      destination: '',
+      name: '',
     };
   }
 
@@ -145,9 +145,11 @@ export default class HomeScreen extends React.Component {
     weatherReport += `The temperature is currently ${[
       allTemp[0]
     ]} degrees and will later be around ${[allTemp[3]]} degrees.,`;
-    weatherReport += `Today it will take you ${
-      this.state.travelTime
-    } minutes to get to work.,`;
+    if (this.state.travelTime !== undefined) {
+      weatherReport += `Today it will take you ${
+        this.state.travelTime
+      } minutes to get to work.,`;
+    }
     if (this.state.eventDetails != null) {
       weatherReport += `Your next appointment is entitled ${this.state
         .eventDetails && this.state.eventDetails.eventTitle},`;
@@ -194,7 +196,11 @@ export default class HomeScreen extends React.Component {
                 color="#0B3954"
               />
               <Button
-                onPress={() => this.props.navigation.navigate("Settings")}
+                onPress={() => Speech.stop()}
+                title="Stop"
+              />
+              <Button
+                onPress={() => this.props.navigation.navigate('Settings')}
                 title="Settings"
               />
             </View>

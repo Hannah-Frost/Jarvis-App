@@ -54,7 +54,7 @@ export default class TravelTime extends Component {
     // let travelTime = await fetch ('https://developer.citymapper.com/api/1/traveltime/?startcoord=+51.558079%2C-0.120810&endcoord=51.558823%2C-0.121487&time=2014-11-06T19%3A00%3A02-0500&time_type=arrival&key=e2567df81c88213608d82487879b3f96')
     // fetch (`https://developer.citymapper.com/api/1/traveltime/?startcoord=51.51727169201791%2C-0.07331195425420282&endcoord=51.5583838%2C-0.123121&time=2014-11-06T19%3A00%3A02-0500&time_type=arrival&key=e2567df81c88213608d82487879b3f96`)
     fetch(
-      `https://developer.citymapper.com/api/1/traveltime/?startcoord=${currentLat}%2C${currentLong}&endcoord=${destLat}%2C${destLong}&time=2014-11-06T19%3A00%3A02-0500&time_type=arrival&key=e2567df81c88213608d82487879b3f96`
+      `https://developer.citymapper.com/api/1/traveltime/?startcoord=${currentLat}%2C${currentLong}&endcoord=${destLat}%2C${destLong}&time=2014-11-06T19%3A00%3A02-0500&time_type=arrival&key=aab0dcfdd3897e4501ffe9c9476cfaf3`
     )
       .then(response => response.json())
       .then(responseJson => {
