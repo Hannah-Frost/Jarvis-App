@@ -126,7 +126,12 @@ export default class App extends React.Component {
       this.state.travelTime
     } minutes to get to work.,`;
     weatherReport += `Your next appointment is entitled ${this.state
-      .eventDetails && this.state.eventDetails.eventTitle}`;
+      .eventDetails && this.state.eventDetails.eventTitle},`;
+    weatherReport += `The location is ${this.state.eventDetails &&
+      this.state.eventDetails.eventLocation},`;
+    weatherReport += `It starts at ${this.state.eventDetails &&
+      this.state.eventDetails.eventStartTime}, and finishes at
+      ${this.state.eventDetails && this.state.eventDetails.eventEndTime}`;
     return weatherReport;
   };
 
