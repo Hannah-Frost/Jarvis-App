@@ -125,9 +125,8 @@ export default class App extends React.Component {
     weatherReport += `Today it will take you ${
       this.state.travelTime
     } minutes to get to work.,`;
-    weatherReport += `Your next appointment is entitled ${
-      this.state.eventDetails.eventTitle
-    }`;
+    weatherReport += `Your next appointment is entitled ${this.state
+      .eventDetails && this.state.eventDetails.eventTitle}`;
     return weatherReport;
   };
 
