@@ -205,6 +205,12 @@ export default class HomeScreen extends React.Component {
               <CalendarPull storeEventDetails={this.storeEventDetails} />
             </View>
             <View style={styles.buttonsContainer}>
+              <Button
+                style={{ borderColor: "gray", borderWidth: 5 }}
+                onPress={() => this._getSettings()}
+                title="Refresh"
+                color="#FFFFFF"
+              />
               <View style={styles.speechContainer}>
                 <Button
                   onPress={() =>
@@ -278,7 +284,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#2980B9",
     marginLeft: 20,
     marginRight: 20,
-    borderRadius: 4
+    borderRadius: 4,
   },
   weatherContainer: {
     marginTop: 20,
