@@ -1,8 +1,6 @@
 import React from 'react';
 import weather from '../utils/WeatherScript';
-import { weatherAPI } from '../utils/API';
-import { StyleSheet, Text, View, ActivityIndicator, Image, Button } from 'react-native';
-import { homeBackground } from '../utils/Colours';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 export const Weather = (props) => {
   let temp = props.weatherData.map(i => {

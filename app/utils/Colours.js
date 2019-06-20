@@ -1,1 +1,1 @@
-export const homeBackground = '#e2faff'
+export const gradient = ["#2980B9", "#55a5d9", "#FFFFFF"]

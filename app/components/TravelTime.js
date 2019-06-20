@@ -19,7 +19,6 @@ export default class TravelTime extends Component {
 
   _getPostcode = async () => {
     var postcode = await AsyncStorage.getItem("destination");
-    console.log(postcode);
     this.setState({ postcode });
   };
 
@@ -40,7 +39,6 @@ export default class TravelTime extends Component {
   };
 
   getDestinationAsync = async () => {
-    console.log(this.state.postcode);
     let destination = await Expo.Location.geocodeAsync(this.state.postcode);
 
     let destinationCoords = {

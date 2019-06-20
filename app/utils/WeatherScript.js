@@ -8,14 +8,14 @@ const weatherScript = {
   },
   rain: {
     url: require("../../assets/images/Rain.png"),
-    current: "rainy right now",
+    current: "raining right now",
     soon: "will soon be raining",
     later: "raining later",
     advice: "So don't forget your umbrella!",
   },
   snow: {
     url: require("../../assets/images/Snow.png"),
-    current: "snowy right now",
+    current: "snowing right now",
     soon: "will soon be snowing",
     later: "snowing later",
     advice: "So don't forget a warm coat!",
