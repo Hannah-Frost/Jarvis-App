@@ -12,12 +12,12 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { LinearGradient } from "expo";
 import { Weather } from "../components/Weather";
-import weatherScript from "../utils/WeatherScript";
+import { AsyncStorage } from "react-native";
 import TravelTime from "../components/TravelTime.js";
 import CalendarPull from "../components/Calendar.js";
-import { journeyTime } from "../components/TravelTime.js";
-import { AsyncStorage } from "react-native";
 import { APP_ID } from "react-native-dotenv";
+import weatherScript from "../utils/WeatherScript";
+import { journeyTime } from "../components/TravelTime.js";
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -98,14 +98,6 @@ export default class HomeScreen extends React.Component {
     });
   }
 
-  componentDidMount() {
-    this._getSettings().then(() => {
-      this._getLocationAsync().then(() => {
-        this.fetchWeather(this.state.latitude, this.state.longitude);
-      });
-    });
-  }
-
   generateWeatherReport = () => {
     weatherReport = "";
     allWeather = [];
@@ -164,6 +156,14 @@ export default class HomeScreen extends React.Component {
     return weatherReport;
   };
 
+  componentDidMount() {
+    this._getSettings().then(() => {
+      this._getLocationAsync().then(() => {
+        this.fetchWeather(this.state.latitude, this.state.longitude);
+      });
+    });
+  }
+
   render() {
     let date = Date(Date.now().toString()).substring(0, 16);
     if (this.state.isLoadingSettings) {
@@ -183,41 +183,49 @@ export default class HomeScreen extends React.Component {
       const weatherSummary = this.generateWeatherReport();
       return (
         <LinearGradient
-          colors={["#2980B9", "#6DD5FA", "#FFFFFF"]}
+          colors={["#2980B9", "#55a5d9", "#FFFFFF"]}
           style={styles.backgroundContainer}
         >
           <View style={styles.container}>
-            <View style={styles.buttonContainer}>
-              <Button
-                onPress={() =>
-                  _speak(weatherSummary, this.state.name, this.state.speechRate)
-                }
-                title="Tell Me"
-                color="#0B3954"
-              />
-              <Button
-                onPress={() => Speech.stop()}
-                title="Stop"
-              />
-              <Button
-                onPress={() => this.props.navigation.navigate('Settings')}
-                title="Settings"
-              />
-            </View>
             <View style={styles.dateContainer}>
+              <Text style={styles.welcomeText}>Welcome {this.state.name}</Text>
               <Text style={styles.dateText}>{date}</Text>
             </View>
             <View style={styles.weatherContainer}>
               <Weather weatherData={this.state.dataSource} />
             </View>
-            <View style={styles.dateContainer}>
+            <View style={styles.formContainer}>
               <TravelTime
                 navigation={this.props.navigation}
                 storeTravelTime={this.storeTravelTime}
               />
             </View>
-            <View>
+            <View style={styles.formContainer}>
               <CalendarPull storeEventDetails={this.storeEventDetails} />
+            </View>
+            <View style={styles.buttonsContainer}>
+              <View style={styles.speechContainer}>
+                <Button
+                  onPress={() =>
+                    _speak(weatherSummary, this.state.name, this.state.speechRate)
+                  }
+                  title="Tell Me"
+                  color="#FFFFFF"
+                />
+                <Button
+                  style={{ borderColor: "gray", borderWidth: 5 }}
+                  onPress={() => Speech.stop()}
+                  title="Stop"
+                  color="#FFFFFF"
+                />
+              </View>
+              <View style={styles.settingsContainer}>
+                <Button
+                  onPress={() => this.props.navigation.navigate('Settings')}
+                  title="Settings"
+                  color="#FFFFFF"
+                />
+              </View>
             </View>
           </View>
         </LinearGradient>
@@ -240,17 +248,33 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start"
   },
+  welcomeText: {
+    fontSize: 22,
+    fontFamily: "Verdana",
+    color: "#FFFFFF",
+    paddingBottom: 5,
+  },
   dateText: {
     fontSize: 18,
-    fontFamily: "Verdana"
+    fontFamily: "Verdana",
+    color: "#FFFFFF"
   },
   dateContainer: {
     marginTop: 30,
     marginLeft: 20
   },
-  buttonContainer: {
-    marginTop: 50,
-    backgroundColor: "#ffffff",
+  speechContainer: {
+    marginTop: 20,
+    backgroundColor: "#2980B9",
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: 4,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly'
+  },
+  settingsContainer: {
+    marginTop: 10,
+    backgroundColor: "#2980B9",
     marginLeft: 20,
     marginRight: 20,
     borderRadius: 4
@@ -258,59 +282,28 @@ const styles = StyleSheet.create({
   weatherContainer: {
     marginTop: 20,
     flexDirection: "row",
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    paddingBottom: 20,
+    paddingBottom: 20,
+    marginRight: 20,
+    marginLeft: 20,
+    borderColor: "#ffffff",
+    borderBottomWidth: 1,
   },
   formContainer: {
-    marginTop: 30,
+    marginTop: 20,
     marginLeft: 20,
     marginRight: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    opacity: 0.9,
-    backgroundColor: "#ffffff",
-    borderRadius: 4
+    paddingBottom: 20,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 4,
+    borderColor: "#ffffff",
+    borderBottomWidth: 1,
   },
-  settingsText: {
-    fontSize: 18,
-    fontFamily: "Verdana",
-    marginTop: 10,
-    marginLeft: 20
-  },
-  speedContainer: {
-    height: 250,
-    marginTop: 30,
-    marginLeft: 20,
-    marginRight: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    opacity: 0.9,
-    backgroundColor: "#ffffff",
-    borderRadius: 4
-  },
-  speedData: {
-    flexDirection: "row"
-  },
-  speedPicker: {
-    marginTop: -5,
-    marginLeft: 20
-  },
-  speedSpeech: {
-    marginTop: 50,
-    marginLeft: 160
-  },
-  volumeIcon: {
-    height: 25,
-    width: 25,
-    marginLeft: 75
-  },
-  saveButton: {
-    marginTop: 200,
-    marginLeft: 20,
-    marginRight: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    opacity: 0.9,
-    backgroundColor: "#ffffff",
-    borderRadius: 4
+  buttonsContainer: {
+    position: 'absolute',
+    bottom: 20,
+    width: '100%',
   }
 });

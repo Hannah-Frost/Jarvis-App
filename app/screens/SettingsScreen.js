@@ -3,49 +3,41 @@ import {
   StyleSheet,
   Text,
   View,
-  ActivityIndicator,
   Image,
   Button,
   TextInput,
   Picker
 } from "react-native";
 import * as Speech from "expo-speech";
-import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
 import { LinearGradient } from "expo";
-import { Weather } from "../components/Weather";
-import weatherScript from "../utils/WeatherScript";
-import { APP_ID } from "react-native-dotenv";
-import TravelTime from "../components/TravelTime.js";
-import { journeyTime } from "../components/TravelTime.js";
 import { AsyncStorage } from "react-native";
 
 export default class SettingsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      destination: "",
-      speechRate: "1.0",
+      name: '',
+      destination: '',
+      speechRate: '1.0',
     };
   }
 
   _storeSettings = () => {
-    var name = "";
-    var destination = "";
-    var settings = [["speechRate", this.state.speechRate]];
-    if (this.state.name !== "") {
+    var name = '';
+    var destination = '';
+    var settings = [['speechRate', this.state.speechRate]];
+    if (this.state.name !== '') {
       name = this.state.name;
-      settings.push(["name", name]);
+      settings.push(['name', name]);
     }
-    if (this.state.destination !== "") {
+    if (this.state.destination !== '') {
       destination = this.state.destination;
-      settings.push(["destination", destination]);
+      settings.push(['destination', destination]);
     }
     AsyncStorage.multiSet(settings, () => {
       console.log(name);
     });
-    this.props.navigation.navigate("Home");
+    this.props.navigation.navigate('Home');
   };
 
   onSubmitEdit = e => {
@@ -55,14 +47,14 @@ export default class SettingsScreen extends React.Component {
   render() {
     return (
       <LinearGradient
-        colors={["#2980B9", "#6DD5FA", "#FFFFFF"]}
+        colors={["#2980B9", "#55a5d9", "#FFFFFF"]}
         style={styles.backgroundContainer}
       >
         <View style={styles.container}>
           <View style={styles.formContainer}>
-            <Text style={styles.settingsText}>Please enter your name:</Text>
+            <Text style={styles.settingsText}>Name:</Text>
             <TextInput
-              style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+              style={{ height: 30, borderColor: "gray", borderBottomWidth: 1, marginTop: 10, marginBottom: 10 }}
               onChangeText={name => this.setState({ name })}
               value={this.state.name}
               onSubmitEditing={this.onSubmitEdit}
@@ -70,9 +62,9 @@ export default class SettingsScreen extends React.Component {
               returnKeyType={"done"}
               clearTextOnFocus={true}
             />
-            <Text style={styles.settingsText}>Please enter Destination:</Text>
+            <Text style={styles.settingsText}>Destination:</Text>
             <TextInput
-              style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+              style={{ height: 30, borderColor: "gray", borderBottomWidth: 1, marginTop: 10, marginBottom: 10 }}
               onChangeText={destination => this.setState({ destination })}
               value={this.state.destination}
               onSubmitEditing={this.onSubmitEdit}
@@ -82,7 +74,7 @@ export default class SettingsScreen extends React.Component {
             />
           </View>
           <View style={styles.speedContainer}>
-            <Text style={styles.settingsText}>Change the speech speed:</Text>
+            <Text style={styles.settingsText}>Speech speed:</Text>
             <View style={styles.speedPicker}>
               <Picker
                 selectedValue={this.state.speechRate}
@@ -114,12 +106,15 @@ export default class SettingsScreen extends React.Component {
               />
             </View>
           </View>
-          <View style={styles.saveButton}>
-            <Button
-              onPress={() => this._storeSettings()}
-              title="Save Changes"
-              color="#0B3954"
-            />
+          <View style={styles.bottomContainer}>
+            <View style={styles.saveButton}>
+              <Button
+                onPress={() => this._storeSettings()}
+                style={{ fontWeight: 'bold' }}
+                title="Save Changes"
+                color="#FFFFFF"
+              />
+            </View>
           </View>
         </View>
       </LinearGradient>
@@ -135,41 +130,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start"
   },
-  dateText: {
-    fontSize: 18,
-    fontFamily: "Verdana"
-  },
-  dateContainer: {
-    marginTop: 30,
-    marginLeft: 20
-  },
-  buttonContainer: {
-    marginTop: 50,
-    backgroundColor: "#ffffff",
-    marginLeft: 20,
-    marginRight: 20,
-    borderRadius: 4
-  },
-  weatherContainer: {
-    marginTop: 20,
-    flexDirection: "row",
-    backgroundColor: "transparent"
-  },
   formContainer: {
-    marginTop: 30,
+    marginTop: 20,
     marginLeft: 20,
     marginRight: 20,
     paddingTop: 10,
     paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
     opacity: 0.9,
     backgroundColor: "#ffffff",
     borderRadius: 4
   },
   settingsText: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: "Verdana",
     marginTop: 10,
-    marginLeft: 20
   },
   speedContainer: {
     height: 250,
@@ -177,6 +153,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     paddingTop: 10,
+    paddingLeft: 20,
     paddingBottom: 10,
     opacity: 0.9,
     backgroundColor: "#ffffff",
@@ -191,7 +168,7 @@ const styles = StyleSheet.create({
   },
   speedSpeech: {
     marginTop: 50,
-    marginLeft: 160
+    marginLeft: 140
   },
   volumeIcon: {
     height: 25,
@@ -205,7 +182,12 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     opacity: 0.9,
-    backgroundColor: "#ffffff",
-    borderRadius: 4
-  }
+    backgroundColor: "#2980B9",
+    borderRadius: 4,
+  },
+  bottomContainer: {
+    position: 'absolute',
+    bottom: 20,
+    width: '100%',
+  },
 });
