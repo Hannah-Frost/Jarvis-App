@@ -41,6 +41,7 @@ export default class HomeScreen extends React.Component {
   }
 
   _getSettings = async () => {
+    this.setState({ isLoadingSettings: true });
     AsyncStorage.getAllKeys((err, keys) => {
       AsyncStorage.multiGet(keys, (err, stores) => {
         var array = [];

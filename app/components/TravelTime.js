@@ -50,7 +50,7 @@ export default class TravelTime extends Component {
 
   getTravelTimeAsync(currentLat, currentLong, destLat, destLong) {
     fetch(
-      `https://developer.citymapper.com/api/1/traveltime/?startcoord=${currentLat}%2C${currentLong}&endcoord=${destLat}%2C${destLong}&time=2014-11-06T19%3A00%3A02-0500&time_type=arrival&key=e14f9460c4433c41081969b74f1f3c90`
+      `https://developer.citymapper.com/api/1/traveltime/?startcoord=${currentLat}%2C${currentLong}&endcoord=${destLat}%2C${destLong}&time=2014-11-06T19%3A00%3A02-0500&time_type=arrival&key=3ee8f8245289eb41dc76fed89788eea2`
     )
       .then(response => response.json())
       .then(responseJson => {
