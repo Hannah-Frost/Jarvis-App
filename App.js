@@ -7,13 +7,37 @@ const AppNavigator = createStackNavigator({
   Home: {
     screen: HomeScreen,
     navigationOptions: {
-      headerTitle: "Jarvis"
+      headerTitle: "JARVIS",
+      headerStyle: {
+        marginTop: 15,
+        backgroundColor: "#2980B9",
+        borderBottomWidth: 0,
+        borderColor: "#2980B9",
+      },
+      headerTintColor: "#FFFFFF",
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        fontSize: 28,
+        letterSpacing: 8,
+      },
     }
   },
   Settings: {
     screen: SettingsScreen,
     navigationOptions: {
-      headerTitle: "Settings"
+      headerTitle: "SETTINGS",
+      headerStyle: {
+        marginTop: 15,
+        backgroundColor: "#2980B9",
+        borderBottomWidth: 0,
+        borderColor: "#2980B9",
+      },
+      headerTintColor: "#FFFFFF",
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        letterSpacing: 4,
+      },
     }
   }
 });
