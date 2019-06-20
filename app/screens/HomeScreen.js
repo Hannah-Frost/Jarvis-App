@@ -12,12 +12,12 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { LinearGradient } from "expo";
 import { Weather } from "../components/Weather";
-import weatherScript from "../utils/WeatherScript";
+import { AsyncStorage } from "react-native";
 import TravelTime from "../components/TravelTime.js";
 import CalendarPull from "../components/Calendar.js";
-import { journeyTime } from "../components/TravelTime.js";
-import { AsyncStorage } from "react-native";
 import { APP_ID } from "react-native-dotenv";
+import weatherScript from "../utils/WeatherScript";
+import { journeyTime } from "../components/TravelTime.js";
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -98,14 +98,6 @@ export default class HomeScreen extends React.Component {
     });
   }
 
-  componentDidMount() {
-    this._getSettings().then(() => {
-      this._getLocationAsync().then(() => {
-        this.fetchWeather(this.state.latitude, this.state.longitude);
-      });
-    });
-  }
-
   generateWeatherReport = () => {
     weatherReport = "";
     allWeather = [];
@@ -164,6 +156,14 @@ export default class HomeScreen extends React.Component {
     return weatherReport;
   };
 
+  componentDidMount() {
+    this._getSettings().then(() => {
+      this._getLocationAsync().then(() => {
+        this.fetchWeather(this.state.latitude, this.state.longitude);
+      });
+    });
+  }
+
   render() {
     let date = Date(Date.now().toString()).substring(0, 16);
     if (this.state.isLoadingSettings) {
@@ -183,7 +183,7 @@ export default class HomeScreen extends React.Component {
       const weatherSummary = this.generateWeatherReport();
       return (
         <LinearGradient
-          colors={["#2980B9", "#6DD5FA", "#FFFFFF"]}
+          colors={["#2980B9", "#55a5d9", "#FFFFFF"]}
           style={styles.backgroundContainer}
         >
           <View style={styles.container}>
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly'
   },
   settingsContainer: {
-    marginTop: 20,
+    marginTop: 10,
     backgroundColor: "#2980B9",
     marginLeft: 20,
     marginRight: 20,
@@ -282,19 +282,24 @@ const styles = StyleSheet.create({
   weatherContainer: {
     marginTop: 20,
     flexDirection: "row",
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    paddingBottom: 20,
+    paddingBottom: 20,
+    marginRight: 20,
+    marginLeft: 20,
+    borderColor: "#ffffff",
+    borderBottomWidth: 1,
   },
   formContainer: {
-    marginTop: 30,
+    marginTop: 20,
     marginLeft: 20,
     marginRight: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingBottom: 20,
     paddingLeft: 10,
     paddingRight: 10,
-    opacity: 0.9,
-    backgroundColor: "#ffffff",
-    borderRadius: 4
+    borderRadius: 4,
+    borderColor: "#ffffff",
+    borderBottomWidth: 1,
   },
   buttonsContainer: {
     position: 'absolute',

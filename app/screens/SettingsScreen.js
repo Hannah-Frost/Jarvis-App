@@ -3,49 +3,41 @@ import {
   StyleSheet,
   Text,
   View,
-  ActivityIndicator,
   Image,
   Button,
   TextInput,
   Picker
 } from "react-native";
 import * as Speech from "expo-speech";
-import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
 import { LinearGradient } from "expo";
-import { Weather } from "../components/Weather";
-import weatherScript from "../utils/WeatherScript";
-import { APP_ID } from "react-native-dotenv";
-import TravelTime from "../components/TravelTime.js";
-import { journeyTime } from "../components/TravelTime.js";
 import { AsyncStorage } from "react-native";
 
 export default class SettingsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      destination: "",
-      speechRate: "1.0",
+      name: '',
+      destination: '',
+      speechRate: '1.0',
     };
   }
 
   _storeSettings = () => {
-    var name = "";
-    var destination = "";
-    var settings = [["speechRate", this.state.speechRate]];
-    if (this.state.name !== "") {
+    var name = '';
+    var destination = '';
+    var settings = [['speechRate', this.state.speechRate]];
+    if (this.state.name !== '') {
       name = this.state.name;
-      settings.push(["name", name]);
+      settings.push(['name', name]);
     }
-    if (this.state.destination !== "") {
+    if (this.state.destination !== '') {
       destination = this.state.destination;
-      settings.push(["destination", destination]);
+      settings.push(['destination', destination]);
     }
     AsyncStorage.multiSet(settings, () => {
       console.log(name);
     });
-    this.props.navigation.navigate("Home");
+    this.props.navigation.navigate('Home');
   };
 
   onSubmitEdit = e => {
@@ -55,7 +47,7 @@ export default class SettingsScreen extends React.Component {
   render() {
     return (
       <LinearGradient
-        colors={["#2980B9", "#6DD5FA", "#FFFFFF"]}
+        colors={["#2980B9", "#55a5d9", "#FFFFFF"]}
         style={styles.backgroundContainer}
       >
         <View style={styles.container}>

@@ -72,19 +72,20 @@ export default class CalendarPull extends Component {
   render() {
     if (this.state.eventDetails.eventTitle != null) {
       return (
-        <View>
-          <Text>
-            Today's first appointment: {this.state.eventDetails.eventTitle}
+        <View style={{ fontColor: '#FFFFFF' }}>
+          <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>
+            Today's first appointment:
           </Text>
-          <Text>Location: {this.state.eventDetails.eventLocation}</Text>
-          <Text>Starts: {this.state.eventDetails.eventStartTime}</Text>
-          <Text>Ends: {this.state.eventDetails.eventEndTime}</Text>
+          <Text style={{ color: '#FFFFFF', paddingTop: 4 }}>{this.state.eventDetails.eventTitle}</Text>
+          <Text style={{ color: '#FFFFFF' }}>Location: {this.state.eventDetails.eventLocation}</Text>
+          <Text style={{ color: '#FFFFFF' }}>Starts: {this.state.eventDetails.eventStartTime}</Text>
+          <Text style={{ color: '#FFFFFF' }}>Ends: {this.state.eventDetails.eventEndTime}</Text>
         </View>
       );
     } else
       return (
         <View>
-          <Text>No appointments today</Text>
+          <Text style={{ color: '#FFFFFF' }}>No appointments today.</Text>
         </View>
       );
   }

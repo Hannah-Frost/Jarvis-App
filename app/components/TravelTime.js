@@ -51,10 +51,8 @@ export default class TravelTime extends Component {
   };
 
   getTravelTimeAsync(currentLat, currentLong, destLat, destLong) {
-    // let travelTime = await fetch ('https://developer.citymapper.com/api/1/traveltime/?startcoord=+51.558079%2C-0.120810&endcoord=51.558823%2C-0.121487&time=2014-11-06T19%3A00%3A02-0500&time_type=arrival&key=e2567df81c88213608d82487879b3f96')
-    // fetch (`https://developer.citymapper.com/api/1/traveltime/?startcoord=51.51727169201791%2C-0.07331195425420282&endcoord=51.5583838%2C-0.123121&time=2014-11-06T19%3A00%3A02-0500&time_type=arrival&key=e2567df81c88213608d82487879b3f96`)
     fetch(
-      `https://developer.citymapper.com/api/1/traveltime/?startcoord=${currentLat}%2C${currentLong}&endcoord=${destLat}%2C${destLong}&time=2014-11-06T19%3A00%3A02-0500&time_type=arrival&key=aab0dcfdd3897e4501ffe9c9476cfaf3`
+      `https://developer.citymapper.com/api/1/traveltime/?startcoord=${currentLat}%2C${currentLong}&endcoord=${destLat}%2C${destLong}&time=2014-11-06T19%3A00%3A02-0500&time_type=arrival&key=e14f9460c4433c41081969b74f1f3c90`
     )
       .then(response => response.json())
       .then(responseJson => {
@@ -95,18 +93,20 @@ export default class TravelTime extends Component {
 
   render() {
     var journeyTime = this.state.dataSource;
-    if (this.state.postcode != "" && journeyTime != null) {
+    if (this.state.postcode != '' && journeyTime != null) {
       return (
-        <Text>
-          Today's commute: {journeyTime} minutes to {this.state.postcode}
-        </Text>
+        <View>
+          <Text style={{ fontWeight: 'bold', color: '#FFFFFF' }}>
+            Today's commute:
+          </Text>
+          <Text style={{ color: '#FFFFFF', lineHeight: 24 }}>
+            {journeyTime} minutes to {this.state.postcode}.
+          </Text>
+        </View>
       );
     } else {
       return (
-        <Button
-          onPress={() => this.props.navigation.navigate("Settings")}
-          title="Update your Travel destination"
-        />
+        <Text style={{ color: '#FFFFFF' }}>Update your Travel destination in settings.</Text>
       );
     }
   }
