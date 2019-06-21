@@ -1,21 +1,45 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { createStackNavigator, createAppContainer } from "react-navigation";
+import HomeScreen from "./app/screens/HomeScreen";
+import SettingsScreen from "./app/screens/SettingsScreen";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Welcome!</Text>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontFamily: 'Verdana',
-    fontSize: 20,
+const AppNavigator = createStackNavigator({
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: {
+      headerTitle: "JARVIS",
+      headerStyle: {
+        marginTop: 15,
+        backgroundColor: "#2980B9",
+        borderBottomWidth: 0,
+        borderColor: "#2980B9",
+      },
+      headerTintColor: "#FFFFFF",
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        fontSize: 28,
+        letterSpacing: 8,
+      },
+    }
   },
+  Settings: {
+    screen: SettingsScreen,
+    navigationOptions: {
+      headerTitle: "SETTINGS",
+      headerStyle: {
+        marginTop: 15,
+        backgroundColor: "#2980B9",
+        borderBottomWidth: 0,
+        borderColor: "#2980B9",
+      },
+      headerTintColor: "#FFFFFF",
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        letterSpacing: 4,
+      },
+    }
+  }
 });
+
+export default createAppContainer(AppNavigator);
