@@ -6,6 +6,6 @@ import App from './App';
 describe('<App />', () => {
   it('has 4 children', () => {
     const tree = renderer.create(<App />).toJSON();
-    expect(tree.children.length).toBe(4);
+    expect(tree.children.length).toBe(1);
   });
 });
