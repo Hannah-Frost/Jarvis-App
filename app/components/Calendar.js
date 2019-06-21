@@ -55,9 +55,6 @@ export default class CalendarPull extends Component {
       eventLocation: events[0].location
     };
 
-    console.log(eventDetails.eventStartTime);
-    console.log(eventDetails.eventEndTime);
-
     this.setState({ events, eventDetails }, () => {
       this.props.storeEventDetails(eventDetails);
     });

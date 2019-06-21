@@ -18,6 +18,7 @@ import CalendarPull from "../components/Calendar.js";
 import { APP_ID } from "react-native-dotenv";
 import weatherScript from "../utils/WeatherScript";
 import { journeyTime } from "../components/TravelTime.js";
+import { gradient } from '../utils/Colours';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -40,6 +41,7 @@ export default class HomeScreen extends React.Component {
   }
 
   _getSettings = async () => {
+    this.setState({ isLoadingSettings: true });
     AsyncStorage.getAllKeys((err, keys) => {
       AsyncStorage.multiGet(keys, (err, stores) => {
         var array = [];
@@ -183,7 +185,7 @@ export default class HomeScreen extends React.Component {
       const weatherSummary = this.generateWeatherReport();
       return (
         <LinearGradient
-          colors={["#2980B9", "#55a5d9", "#FFFFFF"]}
+          colors={gradient}
           style={styles.backgroundContainer}
         >
           <View style={styles.container}>
@@ -204,6 +206,12 @@ export default class HomeScreen extends React.Component {
               <CalendarPull storeEventDetails={this.storeEventDetails} />
             </View>
             <View style={styles.buttonsContainer}>
+              <Button
+                style={{ borderColor: "gray", borderWidth: 5 }}
+                onPress={() => this._getSettings()}
+                title="Refresh"
+                color="#FFFFFF"
+              />
               <View style={styles.speechContainer}>
                 <Button
                   onPress={() =>
@@ -277,7 +285,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#2980B9",
     marginLeft: 20,
     marginRight: 20,
-    borderRadius: 4
+    borderRadius: 4,
   },
   weatherContainer: {
     marginTop: 20,
@@ -287,7 +295,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     marginRight: 20,
     marginLeft: 20,
-    borderColor: "#ffffff",
+    borderColor: "#FFFFFF",
     borderBottomWidth: 1,
   },
   formContainer: {
@@ -298,7 +306,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     borderRadius: 4,
-    borderColor: "#ffffff",
+    borderColor: "#FFFFFF",
     borderBottomWidth: 1,
   },
   buttonsContainer: {

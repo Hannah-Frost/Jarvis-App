@@ -11,6 +11,7 @@ import {
 import * as Speech from "expo-speech";
 import { LinearGradient } from "expo";
 import { AsyncStorage } from "react-native";
+import { gradient } from '../utils/Colours';
 
 export default class SettingsScreen extends React.Component {
   constructor(props) {
@@ -35,7 +36,6 @@ export default class SettingsScreen extends React.Component {
       settings.push(['destination', destination]);
     }
     AsyncStorage.multiSet(settings, () => {
-      console.log(name);
     });
     this.props.navigation.navigate('Home');
   };
@@ -44,32 +44,53 @@ export default class SettingsScreen extends React.Component {
     let input = e.nativeEvent.text;
   };
 
+  _getSettings = async () => {
+    AsyncStorage.getAllKeys((err, keys) => {
+      AsyncStorage.multiGet(keys, (err, stores) => {
+        var array = [];
+        stores.map((result, i, store) => {
+          let key = store[i][0];
+          let value = store[i][1];
+          array.push(value);
+        });
+        this.setState({ name: array[0] });
+        this.setState({ destination: array[1] });
+        this.setState({ speechRate: array[2] });
+      }).then(() => {
+        this.setState({ isLoadingSettings: false });
+      });
+    });
+  };
+
+  componentDidMount() {
+    this._getSettings()
+  }
+
   render() {
     return (
       <LinearGradient
-        colors={["#2980B9", "#55a5d9", "#FFFFFF"]}
+        colors={gradient}
         style={styles.backgroundContainer}
       >
         <View style={styles.container}>
           <View style={styles.formContainer}>
             <Text style={styles.settingsText}>Name:</Text>
             <TextInput
-              style={{ height: 30, borderColor: "gray", borderBottomWidth: 1, marginTop: 10, marginBottom: 10 }}
+              style={{ height: 30, borderColor: 'gray', borderBottomWidth: 1, marginTop: 10, marginBottom: 10 }}
               onChangeText={name => this.setState({ name })}
               value={this.state.name}
               onSubmitEditing={this.onSubmitEdit}
-              autoCompleteType={"postal-code"}
-              returnKeyType={"done"}
+              returnKeyType={'done'}
               clearTextOnFocus={true}
             />
             <Text style={styles.settingsText}>Destination:</Text>
             <TextInput
-              style={{ height: 30, borderColor: "gray", borderBottomWidth: 1, marginTop: 10, marginBottom: 10 }}
+              style={{ height: 30, borderColor: 'gray', borderBottomWidth: 1, marginTop: 10, marginBottom: 10 }}
               onChangeText={destination => this.setState({ destination })}
               value={this.state.destination}
               onSubmitEditing={this.onSubmitEdit}
-              autoCompleteType={"postal-code"}
-              returnKeyType={"done"}
+              autoCompleteType={'postal-code'}
+              returnKeyType={'done'}
               clearTextOnFocus={true}
             />
           </View>
